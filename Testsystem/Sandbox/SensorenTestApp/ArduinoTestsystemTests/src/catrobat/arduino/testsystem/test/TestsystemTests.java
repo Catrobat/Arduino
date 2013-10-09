@@ -5,6 +5,7 @@ import android.app.Instrumentation;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
 import android.view.KeyEvent;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
@@ -58,6 +59,7 @@ public class TestsystemTests extends
      */
 
     private Spinner mSpinner;
+    private Button testButton;
 
     /*
      * The data backing the Spinner in the app under test.
@@ -109,6 +111,7 @@ public class TestsystemTests extends
          */
 
         mSpinner = (Spinner)mActivity.findViewById(catrobat.arduino.testsystem.R.id.Spinner01);
+        testButton = (Button)mActivity.findViewById(catrobat.arduino.testsystem.R.id.startTestButton);
 
         mPlanetData = mSpinner.getAdapter();
 
@@ -127,6 +130,7 @@ public class TestsystemTests extends
          *  the main Activity is not null (has been set to a valid callback)
          */
         assertTrue(mSpinner.getOnItemSelectedListener() != null);
+        assertTrue(testButton.isEnabled());
 
         /*
          * Test that the spinner's backing mLocalAdapter was initialized correctly.
@@ -140,6 +144,8 @@ public class TestsystemTests extends
 
         assertEquals(mPlanetData.getCount(), ADAPTER_COUNT);
     }
+    
+
 
     /*
      * Tests the UI of the main activity. Sends key events (keystrokes) to the UI, then checks
@@ -160,6 +166,7 @@ public class TestsystemTests extends
             new Runnable() {
                 @Override
 				public void run() {
+                	testButton.performClick();
                     mSpinner.requestFocus();
                     mSpinner.setSelection(INITIAL_POSITION);
                 }
@@ -206,8 +213,10 @@ public class TestsystemTests extends
         /*
          * Confirm that the EditText contains the same value as the data in the mLocalAdapter
          */
-
+        
         assertEquals(resultText,mSelection);
+        
+        
     }
 
     /*
