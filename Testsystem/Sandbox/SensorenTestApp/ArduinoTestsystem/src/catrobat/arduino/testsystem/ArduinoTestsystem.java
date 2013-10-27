@@ -414,7 +414,6 @@ public class ArduinoTestsystem extends Activity {
     	
     	
     	Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-    	
     	vib.vibrate(1000);
     	
     }
