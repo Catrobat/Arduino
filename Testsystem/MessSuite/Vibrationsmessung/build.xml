@@ -21,6 +21,9 @@
         <pathelement location="../../../../../Desktop/android/adt-bundle-windows-x86_64-20130917/sdk/platforms/android-18/android.jar"/>
         <pathelement location="../../../../../Desktop/android/adt-bundle-windows-x86_64-20130917/sdk/platforms/android-18/uiautomator.jar"/>
     </path>
+    <path id="junit.path">
+        <pathelement location="lib/junit.jar"/>
+	</path>
     <target name="init">
         <mkdir dir="bin"/>
         <copy includeemptydirs="false" todir="bin">
@@ -89,7 +92,7 @@
         <junit fork="yes" printsummary="withOutAndErr">
             <formatter type="xml"/>
             <test name="AndroidTesting.AndroidTestingTest" todir="${junit.output.dir}"/>
-            <classpath refid="Vibrationsmessung.classpath"/>
+            <classpath refid="junit.path"/>
         </junit>
     </target>
     <target name="junitreport">
