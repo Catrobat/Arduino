@@ -17,12 +17,15 @@
         <pathelement location="bin"/>
         <pathelement location="lib/RXTXcomm.jar"/>
         <pathelement location="lib/javacsv.jar"/>
-        <path refid="JUnit 3.libraryclasspath"/>
+        <pathelement location="lib/junit.jar"/>
         <pathelement location="../../../../../Desktop/android/adt-bundle-windows-x86_64-20130917/sdk/platforms/android-18/android.jar"/>
         <pathelement location="../../../../../Desktop/android/adt-bundle-windows-x86_64-20130917/sdk/platforms/android-18/uiautomator.jar"/>
     </path>
     <path id="junit.path">
         <pathelement location="lib/junit.jar"/>
+		<pathelement location="bin"/>
+        <pathelement location="lib/RXTXcomm.jar"/>
+        <pathelement location="lib/javacsv.jar"/>
 	</path>
     <target name="init">
         <mkdir dir="bin"/>
