@@ -411,12 +411,8 @@ public class ArduinoTestsystem extends Activity {
      * GADEI function section
      */
     public void startVibrator(int patternID) {
-    	
-    	
     	Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-    	
     	vib.vibrate(1000);
-    	
     }
     
 }
