@@ -1,0 +1,22 @@
+#See: https://wiki.jenkins-ci.org/display/JENKINS/Building+an+Android+app+and+test+project
+
+#Testprojekt:
+### mit Android unter: C:\Users\gadei\Desktop\android\adt-bundle-windows-x86_64-20130917\sdk\tools\
+### App under Test: AndroidApp
+C:\Users\gadei\workspace\ArduinoRepo\Testsystem\AndroidDevice>C:\Users\gadei\Desktop\android\adt-bundle-windows-x86_64-20130917\sdk\tools\android.bat update project -p AndroidApp
+
+#Testprojekt:
+### mit Android unter: C:\Users\gadei\Desktop\android\adt-bundle-windows-x86_64-20130917\sdk\tools\
+### Testprojekt: AndroidAppTests
+### App under Test: AndroidApp
+C:\Users\gadei\workspace\ArduinoRepo\Testsystem\AndroidDevice> C:\Users\gadei\Desktop\android\adt-bundle-windows-x86_64-20130917\sdk\tools\android.bat update test-project -m ../AndroidApp -p AndroidAppTests
+
+# now update project in eclipse
+
+#Now Testing
+##move to folder AndroidApp and:
+ant clean debug
+###->BUILD SUCCESSFUL
+##move to folder AndroidAppTests and:
+ant clean emma debug install test
+###->BUILD SUCCESSFUL + Test should run on dev!
