@@ -17,7 +17,7 @@ public class AndroidTestingTest extends TestCase {
 		assertTrue("Data is null!\n", data != null);
 		
 		java.awt.Toolkit.getDefaultToolkit().beep();
-		
+		System.out.print("BA-BEMMMM\n");
 		//assertTrue("and now it don't Works", !result);
 		
 	}

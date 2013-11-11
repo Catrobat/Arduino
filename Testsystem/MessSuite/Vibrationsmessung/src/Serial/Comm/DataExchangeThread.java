@@ -68,7 +68,7 @@ public class DataExchangeThread extends Thread{
 			Thread.sleep(1000);
 			System.out.println("Thread Stop");
 			serialComm.close();
-			
+			Thread.sleep(1000);
 			//collect Data
 			if(initMode)
 				dataContainer = serialComm.collectInitVals(drawDiagram);
