@@ -1,5 +1,7 @@
 package AndroidTesting;
 
+import Serial.Comm.DataContainer;
+import Serial.Comm.SerialComm;
 import junit.framework.TestCase;
 
 public class AndroidTestingTest extends TestCase {
@@ -8,13 +10,13 @@ public class AndroidTestingTest extends TestCase {
 		super.setUp();
 	}
 
-	public void testMain() {
+	public void testReadInitVals() {
 
-		TestWithAndroid test = new TestWithAndroid();
+		DataContainer data = SerialComm.readInitialVals(5, true);	
 		
-		boolean result = test.main();
+		assertTrue("Data is null!\n", data != null);
 		
-		assertTrue("It Works", result);
+		java.awt.Toolkit.getDefaultToolkit().beep();
 		
 		//assertTrue("and now it don't Works", !result);
 		

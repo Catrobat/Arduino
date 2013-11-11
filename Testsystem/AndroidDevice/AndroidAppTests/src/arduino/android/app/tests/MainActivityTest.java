@@ -2,6 +2,9 @@ package arduino.android.app.tests;
 
 
 import android.app.Activity;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
 import android.widget.Button;
@@ -36,7 +39,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		// Is required by JUnit
 		super.setUp();
 		
-//		Measurment.Main.startTest();
 		
 		// Turns off touch mode, if you send key events to the application
 		// you have to turn off touch mode before you start any activities
@@ -55,18 +57,28 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 	/**
 	 * Verifies if the application under test is initialized correctly
 	 */
-	public void testPreConditions() {
+	public void test_0_PreConditions() {
 		assertNotNull(lightCheckBox);
 		assertNotNull(vibrationCheckBox);
 		assertNotNull(actionButton);
 		
 		assertFalse(lightCheckBox.isChecked());
 		assertFalse(vibrationCheckBox.isChecked());
+		
+		//wait 2s
+		try {
+			Thread.sleep(9000);
+		} catch (InterruptedException e) {
+			
+		}
+		
+		peep();
+				
 	}
 	
 	//##########################################################################
 	
-	public void testLight() {
+	public void test_1_Light() {
 		
 		//check light checkbox
 		TouchUtils.clickView(this, lightCheckBox);
@@ -91,7 +103,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		
 	}
 	
-	public void testVibrate() {
+	public void test_2_Vibrate() {
 		
 		//check vibration checkbox
 		TouchUtils.clickView(this, vibrationCheckBox);
@@ -113,7 +125,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		
 	}
 	
-	public void testLightAndVibrate() {
+	public void test_3_LightAndVibrate() {
 		
 		
 		//check light and vibration checkbox
@@ -134,6 +146,15 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		TouchUtils.clickView(this, lightCheckBox);
 		TouchUtils.clickView(this, vibrationCheckBox);
 		
+	}
+	
+	private void peep() {
+		
+		try {
+            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            Ringtone r = RingtoneManager.getRingtone(getActivity().getApplicationContext(), notification);
+            r.play();
+        } catch (Exception e) {}
 	}
 	
 }

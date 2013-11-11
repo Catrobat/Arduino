@@ -5,6 +5,9 @@ import java.util.List;
 
 import arduino.android.app.R;
 
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 //import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -55,13 +58,9 @@ public class MainActivity extends Activity {
 		//
 		
 		// Check if device has vibrator
+		turnLightOff();
 		vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 		
-//		if(!vibrator.hasVibrator()) {
-//			CheckBox vibrationCheckbox = (CheckBox) findViewById(R.id.cb_vibration);
-//			vibrationCheckbox.setClickable(false);
-//		}
-		//
 	}
 	
 	
@@ -69,8 +68,9 @@ public class MainActivity extends Activity {
 		
 		Intent myIntent = new Intent(view.getContext(), ManualDebug.class);
         startActivityForResult(myIntent, 0);
+        
+        peep();
 
-		
 	}
 	
 	/**
@@ -175,21 +175,6 @@ public class MainActivity extends Activity {
 			
 			threads.add(lightThread);
 			
-//			new AsyncTask<Void, Void, Integer>() {
-//
-//				@Override
-//				protected Integer doInBackground(Void... params) {
-//					return toggleLight();
-//				}
-//				
-//				@Override
-//				protected void onPostExecute(Integer statusTextId) {
-//					TextView textView = (TextView) findViewById(R.id.light_status);
-//					textView.setText(statusTextId);
-//				}
-//			}
-//			.execute();
-			
 		}
 		
 		if(vibrationCheckbox.isChecked()) {
@@ -205,16 +190,6 @@ public class MainActivity extends Activity {
 			});
 			
 			threads.add(vibrationThread);
-			
-//			new AsyncTask<Integer, Void, Void>() {
-//				@Override
-//				protected Void doInBackground(Integer... params) {
-//					vibrate(params[0]);
-//					return null;
-//				}
-//				
-//			}
-//			.execute(VIBRATION_DURATION);
 		}
 		
 		for(Thread thread : threads) {
@@ -304,4 +279,13 @@ public class MainActivity extends Activity {
 	}
 	
 	//##########################################################################
+	
+	private void peep() {
+		
+		try {
+            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+            r.play();
+        } catch (Exception e) {}
+	}
 }
