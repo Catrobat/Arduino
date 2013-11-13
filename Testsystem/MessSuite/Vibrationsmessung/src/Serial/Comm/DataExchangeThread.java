@@ -55,7 +55,7 @@ public class DataExchangeThread extends Thread{
 			
 			serialComm.initializePort();
 			
-			Thread.sleep(1500);
+			Thread.sleep(2000);
 			
 			//read data
 			serialComm.startRecord = true;

@@ -66,8 +66,10 @@ public class SerialComm implements SerialPortEventListener {
 		DataExchangeThread t = new DataExchangeThread(durInSecs, true, drawDiagram);
 		t.start();
 		
+		
+		
 		try {
-			Thread.sleep((durInSecs + 4) * 1000);
+			Thread.sleep((durInSecs + 5) * 1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -82,7 +84,7 @@ public class SerialComm implements SerialPortEventListener {
 		t.start();
 		
 		try {
-			Thread.sleep((durInSecs + 4) * 1000);
+			Thread.sleep((durInSecs + 5) * 1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
