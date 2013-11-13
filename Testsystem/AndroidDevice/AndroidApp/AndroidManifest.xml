@@ -31,7 +31,7 @@
             android:parentActivityName="arduino.android.app.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.myfirstapp.MainActivity" />
+                android:value="arduino.android.app.MainActivity" />
         </activity>
         <activity
             android:name="arduino.android.app.ManualDebug"

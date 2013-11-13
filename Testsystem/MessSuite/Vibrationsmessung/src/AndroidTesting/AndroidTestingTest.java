@@ -6,26 +6,34 @@ import junit.framework.TestCase;
 
 public class AndroidTestingTest extends TestCase {
 
+	private DataContainer testData = null;
+	
 	protected void setUp() throws Exception {
 		super.setUp();
+		testData = null;
 	}
 
-	public void testReadInitVals() {
+	public void test_0_ReadInitVals() {
 
-		DataContainer data = SerialComm.readInitialVals(5, true);	
+		testData = SerialComm.readInitialVals(5, true);	
 		
-		assertTrue("Data is null!\n", data != null);
+		assertTrue("Data is null!\n", testData != null);
 		
 		
 	}
 	
-	public void testMain2() {
+	public void test_1_ReadLightVals() {
 
-		TestWithAndroid test = new TestWithAndroid();
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		boolean result = test.main();
+		testData = SerialComm.readTestVals(testData, 10, true);	
 		
-		assertTrue("and now it don't Works", result);
+		assertTrue("Data is null!\n", testData != null);
 		
 	}
 

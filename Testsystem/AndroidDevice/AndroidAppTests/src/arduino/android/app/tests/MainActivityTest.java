@@ -68,11 +68,10 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		//wait 2s
 		try {
 			Thread.sleep(9000);
-		} catch (InterruptedException e) {
-			
-		}
-		
-		peep();
+			peep();
+			Thread.sleep(200);
+			peep();
+		} catch (InterruptedException e) {}
 				
 	}
 	
@@ -84,12 +83,19 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		TouchUtils.clickView(this, lightCheckBox);
 		assertTrue(lightCheckBox.isChecked());
 		
+		try {
+			Thread.sleep(2000 + 2000); //2000ms wait between tests and 2000ms to set up serial port on host
+			peep();
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {}
+		
+		
 		//turn on light
 		TouchUtils.clickView(this, actionButton);
 		
 		//wait 2s
 		try {
-			Thread.sleep(2000);
+			Thread.sleep(4000);
 		} catch (InterruptedException e) {
 			
 		}
@@ -100,6 +106,14 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		//uncheck light checkbox
 		TouchUtils.clickView(this, lightCheckBox);
 		assertFalse(lightCheckBox.isChecked());
+		
+		//wait 2s
+				try {
+					Thread.sleep(5000);
+					peep();
+					Thread.sleep(200);
+					peep();
+				} catch (InterruptedException e) {}
 		
 	}
 	

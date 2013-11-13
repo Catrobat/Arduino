@@ -70,6 +70,13 @@ public class MainActivity extends Activity {
         startActivityForResult(myIntent, 0);
         
         peep();
+       try {
+		Thread.sleep(200);
+	} catch (InterruptedException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+        peep();
 
 	}
 	
