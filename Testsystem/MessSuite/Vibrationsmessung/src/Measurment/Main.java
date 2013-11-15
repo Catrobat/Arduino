@@ -14,14 +14,14 @@ public class Main {
 		int initDuration = 5;
 		int testDuration = 10;
 			
-		DataContainer data = SerialComm.readInitialVals(initDuration, true);			
-
-		data = SerialComm.readTestVals(data, testDuration, true);
+//		DataContainer data = SerialComm.readInitialVals(initDuration, true);			
+//
+//		data = SerialComm.readTestVals(data, testDuration, true);
 
 		
-		System.out.print("Finished Tests!\n");
+		System.out.print("CHECK FIRST: Finished Tests!\n");
 		
-		SerialComm.createPlot(DataAnalysis.baselineComputationVibration(data), DataAnalysis.minMaxComputationVibration(data));
+		//SerialComm.createPlot(DataAnalysis.baselineComputationVibration(data), DataAnalysis.minMaxComputationVibration(data));
 		
 		
 		
@@ -33,24 +33,6 @@ public class Main {
 	
 	}
 	
-	
-	
-	public static void startMeasurement() {
-		
-		int initDuration = 5;
-		int testDuration = 10;
-			
-		DataContainer data = SerialComm.readInitialVals(initDuration, true);			
 
-		data = SerialComm.readTestVals(data, testDuration, true);
-
-		
-		System.out.print("Finished Tests!\n");
-		
-		SerialComm.createPlot(DataAnalysis.baselineComputationVibration(data), DataAnalysis.minMaxComputationVibration(data));
-		
-		
-		
-	}
 
 }

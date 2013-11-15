@@ -6,7 +6,7 @@ public class DataExchangeThread extends Thread{
 
 	private SerialComm serialComm;
 	private boolean drawDiagram;
-	private boolean initMode;
+	private boolean initPhase;
 	
 	public DataContainer dataContainer;
 	
@@ -17,7 +17,7 @@ public class DataExchangeThread extends Thread{
 		super();
 		this.durationInSecs = durationInSecs;
 		this.drawDiagram = drawDiagram;
-		this.initMode = initMode;
+		this.initPhase = initMode;
 				
 		this.dataContainer = null;
 				
@@ -30,7 +30,7 @@ public class DataExchangeThread extends Thread{
 		super();
 		this.durationInSecs = durationInSecs;
 		this.drawDiagram = drawDiagram;
-		this.initMode = initMode;
+		this.initPhase = initMode;
 		
 		this.dataContainer = initData;
 		
@@ -67,10 +67,10 @@ public class DataExchangeThread extends Thread{
 			//stop reading data and just wait
 			Thread.sleep(1000);
 			System.out.println("Thread Stop");
-			serialComm.close();
+			serialComm.close(this.initPhase);
 			Thread.sleep(1000);
 			//collect Data
-			if(initMode)
+			if(initPhase)
 				dataContainer = serialComm.collectInitVals(drawDiagram);
 			else
 				dataContainer = serialComm.collectTestVals(dataContainer, drawDiagram);

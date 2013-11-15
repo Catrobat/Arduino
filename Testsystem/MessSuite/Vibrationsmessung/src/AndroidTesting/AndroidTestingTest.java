@@ -5,24 +5,15 @@ import Serial.Comm.SerialComm;
 import junit.framework.TestCase;
 
 public class AndroidTestingTest extends TestCase {
-
-	private DataContainer testData = null;
+	
+	private boolean testState;
 	
 	protected void setUp() throws Exception {
 		super.setUp();
-		testData = null;
-	}
-
-	public void test_0_ReadInitVals() {
-
-		testData = SerialComm.readInitialVals(5, true);	
-		
-		assertTrue("Data is null!\n", testData != null);
-		
-		
+		testState = false;
 	}
 	
-	public void test_1_ReadLightVals() {
+	public void test_ReadLightVals() {
 
 		try {
 			Thread.sleep(2000);
@@ -31,9 +22,9 @@ public class AndroidTestingTest extends TestCase {
 			e.printStackTrace();
 		}
 		
-		testData = SerialComm.readTestVals(testData, 10, true);	
+		testState = SerialComm.readTestVals(null, 10, true);	
 		
-		assertTrue("Data is null!\n", testData != null);
+		assertTrue("==> ERROR in test_ReadLightVals\n", testState);
 		
 	}
 

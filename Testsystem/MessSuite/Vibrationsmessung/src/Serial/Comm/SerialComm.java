@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 
 import java.net.URI;
+import java.nio.charset.Charset;
 import java.nio.file.*;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -55,13 +56,14 @@ public class SerialComm implements SerialPortEventListener {
 		File dir = new File(dirPath);
 		dir.mkdir();
 		
-		csvLight 		= new CsvWriter(dirPath + "\\lightData.csv");
-		csvVibration	= new CsvWriter(dirPath + "\\vibrationData.csv");
+		csvLight 		= new CsvWriter(dirPath + "\\lightData.csv", ';', Charset.defaultCharset());
+		csvVibration	= new CsvWriter(dirPath + "\\vibrationData.csv", ';', Charset.defaultCharset());
 	
 		
 	}
 	
-	public static DataContainer readInitialVals(int durInSecs, boolean drawDiagram) {
+	// public static DataContainer readInitialVals(int durInSecs, boolean drawDiagram) {
+    public static boolean readInitialVals(int durInSecs, boolean drawDiagram) {
 		
 		DataExchangeThread t = new DataExchangeThread(durInSecs, true, drawDiagram);
 		t.start();
@@ -73,12 +75,14 @@ public class SerialComm implements SerialPortEventListener {
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
 		}
 
-		return t.dataContainer;
+		return true;
 	}
 	
-	public static DataContainer readTestVals(DataContainer initData, int durInSecs, boolean drawDiagram) {
+	//public static DataContainer readTestVals(DataContainer initData, int durInSecs, boolean drawDiagram) {
+	public static boolean readTestVals(DataContainer initData, int durInSecs, boolean drawDiagram) {
 		
 		DataExchangeThread t = new DataExchangeThread(initData, durInSecs, false, drawDiagram);
 		t.start();
@@ -88,9 +92,10 @@ public class SerialComm implements SerialPortEventListener {
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
 		}
 
-		return t.dataContainer;
+		return true;
 	}
 	
 
@@ -128,7 +133,7 @@ public class SerialComm implements SerialPortEventListener {
 					//stop reading data and just wait
 					Thread.sleep(1000);
 					System.out.println("Thread Stop");
-					comm.close();
+					comm.close(false);
 					
 					//create plot
 					comm.createPlot();
@@ -190,7 +195,7 @@ public class SerialComm implements SerialPortEventListener {
 	 * This should be called when you stop using the port.
 	 * This will prevent port locking on platforms like Linux.
 	 */
-	public synchronized void close() {
+	public synchronized void close(boolean initPhase) {
 		if (serialPort != null) {
 			serialPort.removeEventListener();
 			serialPort.close();
@@ -198,7 +203,7 @@ public class SerialComm implements SerialPortEventListener {
 		
 		csvLight.close();
 		csvVibration.close();
-		copyFiles();
+		copyFiles(initPhase);
 	}
 
 	/**
@@ -254,13 +259,29 @@ public class SerialComm implements SerialPortEventListener {
 	    }
 	}
 	
-	public void copyFiles() {
+	public void copyFiles(boolean initPhase) {
 		
 		Path vibPathSrc = FileSystems.getDefault().getPath(dirPath, "vibrationData.csv");
-		Path vibPathDst = FileSystems.getDefault().getPath("data\\cur", "vibrationData.csv");
+		Path vibPathDst;
+		
+		if(initPhase)
+			vibPathDst = FileSystems.getDefault().getPath("data\\cur", "vibrationData_init.csv");
+		else
+			vibPathDst = FileSystems.getDefault().getPath("data\\cur", "vibrationData.csv");
+		
+		//-----------------------------------------------------------------------------------
+		//-----------------------------------------------------------------------------------
 		
 		Path lightPathSrc = FileSystems.getDefault().getPath(dirPath, "lightData.csv");
-		Path lightPathDst = FileSystems.getDefault().getPath("data\\cur", "lightData.csv");
+		Path lightPathDst;
+		
+		if(initPhase)
+			lightPathDst = FileSystems.getDefault().getPath("data\\cur", "lightData_init.csv");
+		else
+			lightPathDst = FileSystems.getDefault().getPath("data\\cur", "lightData.csv");
+		
+		//-----------------------------------------------------------------------------------
+		//-----------------------------------------------------------------------------------
 		
 		try {
 			Files.copy(vibPathSrc, 	 vibPathDst,   StandardCopyOption.REPLACE_EXISTING);
@@ -316,8 +337,8 @@ public class SerialComm implements SerialPortEventListener {
 	        f.setVisible(true);
 		}
         
-		initData.lightData = lArr;
-		initData.vibData = vArr;
+//		initData.lightData = lArr;
+//		initData.vibData = vArr;
 		
         return initData;
 	}
