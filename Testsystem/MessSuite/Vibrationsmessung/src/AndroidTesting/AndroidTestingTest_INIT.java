@@ -19,6 +19,10 @@ public class AndroidTestingTest_INIT extends TestCase {
 		
 		assertTrue("==> ERROR in test_ReadInitVals\n", testState);
 		
+		testState = SerialComm.readTestVals(null, 10, true);	
+		
+		assertTrue("==> ERROR in test_ReadInitVals\n", testState);
+		
 		
 	}
 	
