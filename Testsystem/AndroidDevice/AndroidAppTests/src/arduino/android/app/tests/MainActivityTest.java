@@ -72,12 +72,52 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 			Thread.sleep(200);
 			peep();
 		} catch (InterruptedException e) {}
+		
+		
+		//============================================================
+		//now start initial Light check:
+		//============================================================
+		
+		try {
+			Thread.sleep(2000 + 2000); //2000ms wait between tests and 2000ms to set up serial port on host
+			peep();
+			//check light checkbox
+			TouchUtils.clickView(this, lightCheckBox);
+			assertTrue(lightCheckBox.isChecked());
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {}
+		
+		
+		//turn on light
+		TouchUtils.clickView(this, actionButton);
+		
+		//wait 2s
+		try {
+			Thread.sleep(4000);
+		} catch (InterruptedException e) {
+			
+		}
+		
+		//turn off light
+		TouchUtils.clickView(this, actionButton);
+		
+		//uncheck light checkbox
+		TouchUtils.clickView(this, lightCheckBox);
+		assertFalse(lightCheckBox.isChecked());
+		
+		//wait 2s
+				try {
+					Thread.sleep(5000);
+					peep();
+					Thread.sleep(200);
+					peep();
+				} catch (InterruptedException e) {}
 				
 	}
 	
 	//##########################################################################
 	
-	public void test_1_Light() {
+	public void _test_1_Light() {
 		
 		//check light checkbox
 		TouchUtils.clickView(this, lightCheckBox);
@@ -117,7 +157,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		
 	}
 	
-	public void test_2_Vibrate() {
+	public void _test_2_Vibrate() {
 		
 		//check vibration checkbox
 		TouchUtils.clickView(this, vibrationCheckBox);
@@ -139,7 +179,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		
 	}
 	
-	public void test_3_LightAndVibrate() {
+	public void _test_3_LightAndVibrate() {
 		
 		
 		//check light and vibration checkbox
