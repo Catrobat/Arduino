@@ -5,13 +5,15 @@
 
 /*
    *******************  COMMMANDS *******************
-  - NFC Emulation:
-    Command: "0<WRITEABLE><NFC-UID>"
-      - WRITEABLE hexstring of size 1 ("0" is writeable, else not writeable)
-      - <NFC-UID> hexstring of size 6 ( i.e. 123456 )    
-*/
+ - NFC Emulation:
+ Command: "0<WRITEABLE><NFC-UID>"
+ - WRITEABLE hexstring of size 1 ("0" is writeable, else not writeable)
+ - <NFC-UID> hexstring of size 6 ( i.e. 123456 )    
+ */
 
-enum serialCommandPrefix { NFC_EMULATE, VIBRATION_VALUES };
+enum serialCommandPrefix { 
+  NFC_EMULATE, VIBRATION_VALUES
+};
 
 #define COMMAND_INITALIZATION_FINISHED "INITIALIZATION_FINISHED"
 #define COMMAND_NFC_EMULATION_STARTED  "STARTED_NFC_EMULATION"
@@ -20,6 +22,7 @@ enum serialCommandPrefix { NFC_EMULATE, VIBRATION_VALUES };
 
 // ******************* Settings  *******************
 
+#define STREAM_READ_DELAY 1 // arduino is otherwise faster than the stream
 #define NFC_EMULATION_TIMEOUT 2000 
 #define SERIAL_BUFFER_SIZE 128
 
@@ -32,11 +35,15 @@ int vibrationCounter;
 
 // **************************************************
 
-char serialBuffer[SERIAL_BUFFER_SIZE];
+
+// TODO: when we get
+#define STREAM Serial
 
 PN532_SPI pn532spi(SPI, 10);
 EmulateTag nfc(pn532spi);
-  
+
+// **************************************************
+
 void setup()
 {
   Serial.begin(115200);
@@ -45,76 +52,102 @@ void setup()
 }
 
 void loop(){
-    // commands from 
-    if(Serial.available() ) { 
-      // reading one line from Serial
-     
-      byte readLength = Serial.readBytesUntil('\n', serialBuffer, sizeof(serialBuffer));
+  if(STREAM.available()){
+    
+    uint8_t command;
+    
+    if(readCharConvertToByte(&command)){
       
-      if(readLength == 0){
-          // TODO: better error handling
-          Serial.println("ERROR: serial read too short");
-      } else {
-        uint8_t command = hexCharToByte(serialBuffer[0]);
-        bool tagWriteable;
-        
-        switch(command){
-          case NFC_EMULATE:
-          //  emulate(serialbuffer+1, readLength);
-          
-          
-            tagWriteable = hexCharToByte(serialBuffer[1]) == 0;
-            uint8_t nfcUid[3];
-            if(readLength >= 8){
-              nfcUid[0] = (hexCharToByte(serialBuffer[2]) << 4) + hexCharToByte(serialBuffer[3]);
-              nfcUid[1] = (hexCharToByte(serialBuffer[5]) << 4) + hexCharToByte(serialBuffer[5]);
-              nfcUid[2] = (hexCharToByte(serialBuffer[6]) << 4) + hexCharToByte(serialBuffer[7]);
-              emulate(nfcUid,tagWriteable);
-            } else {
-              Serial.println("ERROR: nfc_emulate command too short!");
-            }
-            break;
-           case VIBRATION_VALUES:
-             for(int i=0; i < sizeof(vibrationBuffer); i++){
-               if(vibrationBuffer[i] < 0x10){
-                 Serial.print("0");
-               }
-               Serial.print(vibrationBuffer[i], HEX);
-             }
-             Serial.println("VIBRATION_END");
-             break;
-           default: 
-              Serial.print("ERROR: command not understood:");
-              Serial.println(serialBuffer[0]);
-          }
+      switch(command){
+      case NFC_EMULATE:
+        commandNfcEmulate();
+        break;
+      case VIBRATION_VALUES:
+        commandVibrationValues();
+        break;
+      default:
+        STREAM.print("ERROR: command not understood:");
+        STREAM.println(command);
+      }
+      
+      // read remaining bytes i.e. '\n'
+      while(STREAM.read() != -1){ 
+        delay(STREAM_READ_DELAY);
       }
     }
-    
-    // TODO: remove this section, this is just for testing
-    vibrationBuffer[vibrationCounter % sizeof(vibrationBuffer)] = vibrationCounter % 2;
-    vibrationCounter++;
+  }
+  // TODO: remove this section, this is just for testing
+  vibrationBuffer[vibrationCounter % sizeof(vibrationBuffer)] = vibrationCounter % 2;
+  vibrationCounter++;
 }
 
+void commandNfcEmulate(){
+  STREAM.println(COMMAND_NFC_EMULATION_STARTED);
 
-void emulate(uint8_t* uid, bool tagWriteable){
-    Serial.println(COMMAND_NFC_EMULATION_STARTED);
-    nfc.setUid(uid);
-    nfc.setTagWriteable(tagWriteable);
-    if(!nfc.emulate(NFC_EMULATION_TIMEOUT)){
-        delay(1000); // delay is mandatory!
-      Serial.println(COMMAND_NFC_EMULATION_TIMEDOUT);
-    } else{  
-      if(nfc.writeOccured()){
-         uint8_t* tag_buf;
-         uint16_t length;
-       
-         nfc.getContent(&tag_buf, &length);
-         NdefMessage msg = NdefMessage(tag_buf, length);
-         msg.print();
-      }
-      delay(1000); // delay is mandatory!
-      Serial.println(COMMAND_NFC_EMULATION_FINISHED);
-    } 
+  uint8_t tagwriteable;
+  uint8_t uid[3];
+
+  if(  !readCharConvertToByte(&tagwriteable)
+    || !readTwoCharConvertToByte(uid)
+    || !readTwoCharConvertToByte(&uid[1])
+    || !readTwoCharConvertToByte(&uid[2])
+    ){
+    Serial.println("ERROR");
+    return;
+  }
+
+  nfc.setTagWriteable(tagwriteable == 0);
+  nfc.setUid(uid);
+
+  if(!nfc.emulate(NFC_EMULATION_TIMEOUT)){
+    delay(1000); // delay is mandatory!
+    STREAM.println(COMMAND_NFC_EMULATION_TIMEDOUT); 
+  } 
+  else {
+    if(nfc.writeOccured()){
+      uint8_t* tag_buf;
+      uint16_t length;
+
+      nfc.getContent(&tag_buf, &length);
+      NdefMessage msg = NdefMessage(tag_buf, length);
+      msg.print();
+    }
+    delay(1000); // delay is mandatory!
+    Serial.println(COMMAND_NFC_EMULATION_FINISHED);
+  }
+}
+
+void commandVibrationValues(){
+  for(int i=0; i < sizeof(vibrationBuffer); i++){
+    if(vibrationBuffer[i] < 0x10){
+      Serial.print("0");
+    }
+    Serial.print(vibrationBuffer[i], HEX);
+  }
+  Serial.println("VIBRATION_END");
+}
+
+// **************************************************
+
+bool readCharConvertToByte(uint8_t *resultingByte){
+  int tmp = STREAM.read();
+  if(tmp == -1){
+    return 0;
+  } 
+  *resultingByte = hexCharToByte((char)tmp); 
+  delay(STREAM_READ_DELAY);
+  return 1;  
+}
+
+bool readTwoCharConvertToByte(uint8_t *resultingByte){
+  uint8_t msb;
+  uint8_t lsb;
+
+  if(readCharConvertToByte(&msb) && readCharConvertToByte(&lsb)){
+    *resultingByte = (msb << 4) + lsb;
+    return 1;
+  }
+  return 0;
 }
 
 uint8_t hexCharToByte(char c){
@@ -126,3 +159,9 @@ uint8_t hexCharToByte(char c){
     return c - 'A' + 10;
   return 0;
 }
+
+
+
+
+
+
