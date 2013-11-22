@@ -5,11 +5,16 @@
 
 /*
    *******************  COMMMANDS *******************
- - NFC Emulation:
- Command: "0<WRITEABLE><NFC-UID>"
+* NFC Emulation:
+ Command: "0<WRITEABLE><NFC-UID><OPTIONAL_NDEF_BUFFER>"
  - WRITEABLE hexstring of size 1 ("0" is writeable, else not writeable)
  - <NFC-UID> hexstring of size 6 ( i.e. 123456 )    
- */
+ - <OPTIONAL_NDEF_BUFFER>  = <SIZE_NDEF_MESSAGE><NDEF_MESSGAGE>
+   - <SIZE_NDEF_MESSAGE> = hexstring of size 4 (i.e. 001c)
+   - <NDEF_MESSAGE> ... message in hexstring
+ - full command: 00123456001cD101185503646576656C6F7065722E636174726F6261742E6F72672F
+   
+*/
 
 enum serialCommandPrefix { 
   NFC_EMULATE, VIBRATION_VALUES
@@ -29,14 +34,13 @@ enum serialCommandPrefix {
 // **************************************************
 
 // TODO: remove this section, this is just for testing
-#define TMP_BUFFER_SIZE 10
+#define TMP_BUFFER_SIZE 500
 uint8_t vibrationBuffer[TMP_BUFFER_SIZE];
 int vibrationCounter;
 
 // **************************************************
 
-
-// TODO: when we get
+// TODO: we can change this to the ethernet stream when we have ethernet shield
 #define STREAM Serial
 
 PN532_SPI pn532spi(SPI, 10);
@@ -92,9 +96,22 @@ void commandNfcEmulate(){
     || !readTwoCharConvertToByte(&uid[1])
     || !readTwoCharConvertToByte(&uid[2])
     ){
-    Serial.println("ERROR");
+    STREAM.println("ERROR");
     return;
   }
+  
+  uint8_t* ndef_file = nfc.getNdefFilePtr();
+  uint8_t i = 0;
+  for(; i < nfc.getNdefMaxLength(); i++){
+      if(!readTwoCharConvertToByte(ndef_file+i))
+        break;
+  }
+  uint16_t ndefSize = (ndef_file[0] << 4) + ndef_file[1];
+  if(i == 0 || (ndefSize != i - 2)){
+    ndef_file[0] = 0;
+    ndef_file[1] = 0;
+  }
+  
 
   nfc.setTagWriteable(tagwriteable == 0);
   nfc.setUid(uid);
@@ -113,7 +130,7 @@ void commandNfcEmulate(){
       msg.print();
     }
     delay(1000); // delay is mandatory!
-    Serial.println(COMMAND_NFC_EMULATION_FINISHED);
+    STREAM.println(COMMAND_NFC_EMULATION_FINISHED);
   }
 }
 
