@@ -1,3 +1,6 @@
+Testsystem/catrobat_hardware_testing/mount_libraries.sh
+Testsystem/catrobat_hardware_testing/libraries/NDEF/.git/
+
 # built application files
 *.apk
 *.ap_
