@@ -67,7 +67,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		
 		//wait 2s
 		try {
-			Thread.sleep(9000);
+			Thread.sleep(7500);
 			peep();
 			Thread.sleep(200);
 			peep();
