@@ -67,7 +67,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		
 		//sync java and android
 		try {
-			Thread.sleep(7500);
+			Thread.sleep(5000);
 			peep();
 			Thread.sleep(200);
 			peep();
