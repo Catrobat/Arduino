@@ -65,7 +65,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		assertFalse(lightCheckBox.isChecked());
 		assertFalse(vibrationCheckBox.isChecked());
 		
-		//wait 2s
+		//sync java and android
 		try {
 			Thread.sleep(7500);
 			peep();
