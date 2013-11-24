@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">DEMO - GUI [Android - Bluetooth -  Arduino]</string>
+    <string name="action_settings">Settings</string>
+    <string name="status_field">status message</string>
+    <string name="received_message">input</string>
+    <string name="rbtn_motor1">Engine 1</string>
+    <string name="rbtn_motor2">Engine 2</string>
+    <string name="rbtn_motor3">Engine 3</string>
+    <string name="rbtn_motor4">Engine 4</string>
+    <string name="rbtn_motor5">Engine 5</string>
+    <string name="rbtn_motor6">Engine 6</string>
+    <string name="btn_up">up</string>
+    <string name="btn_down">down</string>
+    <string name="btn_left">left</string>
+    <string name="btn_right">right</string>
+    <string name="btn_stop">stop</string>
+    <string name="btn_reset">reset</string>
+
+
+</resources>

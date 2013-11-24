@@ -1,0 +1,84 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    tools:context=".MainActivity" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="64dp" >
+        
+        <EditText 
+        android:id="@+id/edit_message"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/edit_message" />
+    
+	    <Button
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/button_send"
+	        android:onClick="sendMessage" />
+        
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <CheckBox
+            android:id="@+id/cb_vibration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/cb_light"
+            android:layout_alignLeft="@+id/cb_light"
+            android:layout_alignRight="@+id/cb_light"
+            android:text="@string/checkbox_vibration" />
+
+        <TextView
+            android:id="@+id/light_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/cb_vibration"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="51dp"
+            android:text="@string/light_off" />
+
+        <Button
+            android:id="@+id/go"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/cb_light"
+            android:layout_alignParentBottom="true"
+            android:layout_alignRight="@+id/cb_light"
+            android:layout_marginBottom="100dp"
+            android:onClick="performAction"
+            android:text="@string/button_main" />
+
+        <CheckBox
+            android:id="@+id/cb_light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/checkbox_light" />
+
+        <Button
+            android:id="@+id/ChangeToManulMode"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:onClick="changeToDebugMode"
+            android:text="Debug" />
+
+    </RelativeLayout>
+
+</LinearLayout>

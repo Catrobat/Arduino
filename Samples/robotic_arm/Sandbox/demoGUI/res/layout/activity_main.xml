@@ -1,0 +1,167 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity" >
+
+    <RadioGroup
+        android:id="@+id/radioGroup1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" >
+
+        <RadioButton
+            android:id="@+id/rbtn_motor1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rbtn_motor1" />
+
+        <RadioButton
+            android:id="@+id/rbtn_motor2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rbtn_motor2" />
+
+        <RadioButton
+            android:id="@+id/rbtn_motor3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rbtn_motor3" />
+
+        <RadioButton
+            android:id="@+id/rbtn_motor4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="@string/rbtn_motor4" />
+
+        <RadioButton
+            android:id="@+id/rbtn_motor5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rbtn_motor5" />
+
+        <RadioButton
+            android:id="@+id/rbtn_motor6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rbtn_motor6" />
+    </RadioGroup>
+
+    <ToggleButton
+        android:id="@+id/btn_conndisconn"
+        android:layout_width="90dp"
+        android:layout_height="50dp"
+        android:layout_alignTop="@+id/radioGroup1"
+        android:layout_marginLeft="21dp"
+        android:layout_toRightOf="@+id/radioGroup1"
+        android:checked="false"
+        android:enabled="false"
+        android:onClick="conndiscon"
+        android:textOff="connect"
+        android:textOn="disconnect" />
+
+    <ToggleButton
+        android:id="@+id/btn_onoff"
+        android:layout_width="90dp"
+        android:layout_height="50dp"
+        android:layout_alignLeft="@+id/btn_conndisconn"
+        android:layout_alignRight="@+id/btn_conndisconn"
+        android:layout_below="@+id/btn_conndisconn"
+        android:checked="false"
+        android:onClick="onoff"
+        android:textOff="Bluetooth"
+        android:textOn="Bluetooth" />
+
+    <Button
+        android:id="@+id/btn_reset"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_alignBottom="@+id/radioGroup1"
+        android:layout_alignLeft="@+id/btn_onoff"
+        android:layout_alignRight="@+id/btn_onoff"
+        android:text="@string/btn_reset" />
+
+    <Button
+        android:id="@+id/btn_up"
+        android:layout_width="80dp"
+        android:layout_height="50dp"
+        android:layout_above="@+id/btn_right"
+        android:layout_toLeftOf="@+id/btn_right"
+        android:text="@string/btn_up" />
+
+    <Button
+        android:id="@+id/btn_down"
+        android:layout_width="80dp"
+        android:layout_height="50dp"
+        android:layout_alignLeft="@+id/btn_up"
+        android:layout_below="@+id/btn_right"
+        android:layout_toLeftOf="@+id/btn_right"
+        android:text="@string/btn_down" />
+
+    <Button
+        android:id="@+id/btn_left"
+        android:layout_width="80dp"
+        android:layout_height="50dp"
+        android:layout_above="@+id/btn_down"
+        android:layout_toLeftOf="@+id/btn_down"
+        android:text="@string/btn_left" />
+
+    <Button
+        android:id="@+id/btn_stop"
+        android:layout_width="80dp"
+        android:layout_height="50dp"
+        android:layout_above="@+id/btn_down"
+        android:layout_toLeftOf="@+id/btn_right"
+        android:text="@string/btn_stop" />
+
+    <Button
+        android:id="@+id/btn_right"
+        android:layout_width="80dp"
+        android:layout_height="50dp"
+        android:layout_alignBottom="@+id/btn_onoff"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:text="@string/btn_right" />
+
+    <EditText
+        android:id="@+id/status_field"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/btn_reset"
+        android:layout_alignBottom="@+id/btn_reset"
+        android:layout_alignLeft="@+id/btn_left"
+        android:layout_alignRight="@+id/btn_right"
+        android:ems="10"
+        android:hint="@string/status_field" />
+
+    <ToggleButton
+        android:id="@+id/btn_light_onoff"
+        android:layout_width="90dp"
+        android:layout_height="50dp"
+        android:layout_alignLeft="@+id/btn_onoff"
+        android:layout_below="@+id/btn_onoff"
+        android:checked="false"
+        android:enabled="false"
+        android:onClick="lightOnOff"
+        android:textOff="Light"
+        android:textOn="Light" />
+
+    <EditText
+        android:id="@+id/received_message"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_above="@+id/status_field"
+        android:layout_alignLeft="@+id/status_field"
+        android:ems="10"
+        android:hint="@string/received_message" >
+
+        <requestFocus />
+    </EditText>
+
+</RelativeLayout>
