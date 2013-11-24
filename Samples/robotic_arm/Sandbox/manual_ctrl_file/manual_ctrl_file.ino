@@ -104,6 +104,7 @@ void checkInput(char inputData) {
         
  //============================================      
  
+ //DONT USE THIS MOTOR ==== DANGER
       case 'f':  //activate
         Serial.write('L');
         execCmd(3, cmdLeft);//cmdRight cmdLeft
