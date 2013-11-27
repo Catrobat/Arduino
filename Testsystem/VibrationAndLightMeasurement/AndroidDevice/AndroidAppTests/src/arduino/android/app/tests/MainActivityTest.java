@@ -1,6 +1,7 @@
 package arduino.android.app.tests;
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import arduino.android.app.MainActivity;
 
+@SuppressLint("NewApi")
 public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
 	private Activity mainActivity;
@@ -67,7 +69,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		
 		//sync java and android
 		try {
-			Thread.sleep(5000);
+			Thread.sleep(6500);
 			peep();
 			Thread.sleep(200);
 			peep();
@@ -93,7 +95,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		
 		//wait 2s
 		try {
-			Thread.sleep(4000);
+			Thread.sleep(2000);
 		} catch (InterruptedException e) {
 			
 		}
@@ -107,7 +109,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		
 		//wait 2s
 				try {
-					Thread.sleep(5000);
+					Thread.sleep(1000);
 					peep();
 					Thread.sleep(200);
 					peep();
