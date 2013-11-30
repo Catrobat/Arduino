@@ -41,7 +41,6 @@ enum serialCommandPrefix {
   NFC_EMULATE, VIBRATION_VALUES
 };
 
-#define COMMAND_INITALIZATION_FINISHED "INITIALIZATION_FINISHED"
 #define COMMAND_NFC_EMULATION_STARTED  "STARTED_NFC_EMULATION"
 #define COMMAND_NFC_EMULATION_TIMEDOUT "TIMEDOUT_NFC_EMULATION"
 #define COMMAND_NFC_EMULATION_FINISHED "FINISHED_NFC_EMULATION"
@@ -81,19 +80,25 @@ EthernetClient client;
 
 void setup()
 {
+  // disable all SPI
+  pinMode(PN532_CS,OUTPUT);
+  pinMode(ETHNET_CS,OUTPUT);
+  digitalWrite(PN532_CS,HIGH);
+  digitalWrite(ETHNET_CS,HIGH);
+
   Serial.begin(115200);
 
   spiSelect(PN532_CS);
   nfc.init();
-  
+
   spiSelect(ETHNET_CS);
   Ethernet.begin(mac, ip);
   server.begin();
-  
+
   Serial.print("server is at ");
   Serial.println(Ethernet.localIP());
 
-  Serial.println(COMMAND_INITALIZATION_FINISHED);
+  Serial.println(F("INITIALIZATION_FINISHED"));
 }
 
 void loop(){
@@ -168,12 +173,15 @@ void commandNfcEmulate(){
 
   spiSelect(PN532_CS);
 
+  nfc.init();
+
   if(!nfc.emulate(NFC_EMULATION_TIMEOUT)){
     delay(1000); // delay is mandatory!
     spiSelect(ETHNET_CS);
     client.println(COMMAND_NFC_EMULATION_TIMEDOUT); 
   } 
   else {
+    delay(1000); // delay is mandatory!
     spiSelect(ETHNET_CS);
     if(nfc.writeOccured()){
       uint8_t* tag_buf;
@@ -191,7 +199,6 @@ void commandNfcEmulate(){
       }
       client.print("\n");      
     }
-    delay(1000); // delay is mandatory!
 
     client.println(COMMAND_NFC_EMULATION_FINISHED);
   }
@@ -209,20 +216,19 @@ void commandVibrationValues(){
 
 // **************************************************
 
-void spiSelect(int CS) {
-  // disable all SPI
-  pinMode(PN532_CS,OUTPUT);
-  pinMode(ETHNET_CS,OUTPUT);
-  digitalWrite(PN532_CS,HIGH);
-  digitalWrite(ETHNET_CS,HIGH);
-  // enable the chip we want
-  digitalWrite(CS,LOW);  
+void spiSelect(int CS) { 
+
   if(CS == ETHNET_CS){
+    digitalWrite(PN532_CS,HIGH);
     SPI.setBitOrder(MSBFIRST);
   }
   else if(CS == PN532_CS){
+    digitalWrite(ETHNET_CS,HIGH);
     SPI.setBitOrder(LSBFIRST);
   }
+
+  // enable the chip we want
+  digitalWrite(CS,LOW); 
 }
 
 bool readCharConvertToByte(uint8_t *resultingByte){
@@ -258,4 +264,5 @@ uint8_t hexCharToByte(char c){
     return c - 'A' + 10;
   return 0;
 }
+
 
