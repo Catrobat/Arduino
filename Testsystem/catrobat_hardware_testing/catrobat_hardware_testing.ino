@@ -1,9 +1,9 @@
 /*
 
-This sketch provides an TCP interface for testing hardware (NFC,...)
-of i.e. Android devices.
-
-   *******************  COMMMANDS *******************
+ This sketch provides an TCP interface for testing hardware (NFC,...)
+ of i.e. Android devices.
+ 
+ *******************  COMMMANDS *******************
  * NFC Emulation:
  Command: "0<WRITEABLE><NFC-UID><OPTIONAL_NDEF_BUFFER>"
  - WRITEABLE hexstring of size 1 ("0" is writeable, else not writeable)
@@ -12,29 +12,28 @@ of i.e. Android devices.
  - <SIZE_NDEF_MESSAGE> = hexstring of size 4 (i.e. 001c)
  - <NDEF_MESSAGE> ... message in hexstring
  - full command example: 00123456001cD101185503646576656C6F7065722E636174726F6261742E6F72672F
-
-Board: Arduino Mega 2560
-Shields: NFC Shield V2.0, Ethernet Shield
-
-Attention both shields use the sampe SPI CS Pin (10). Therefore harde modifications or "jumper cables" are necessary.
-
-Setup (see setup.jpg):
-Top:    Ethernet Shield
-Middle: NFC Shield V2.0
-Bottom: Arduino Mega 2560
-
-Pin 10 of of both Shields are bend out (not connected to base board). 
-Connect following pins with jumper cables: 
-  - Arduino   Pin 10 <--> EthernetShield Pin10
-  - NFCShield Pin  9 <--> EthernetShield Pin 9
  
-Now we can use pin 10 for Ehternet Shield and pin 9 for NFCShield.
+ Board: Arduino Mega 2560
+ Shields: NFC Shield V2.0, Ethernet Shield
+ 
+ Attention both shields use the sampe SPI CS Pin (10). Therefore hardware modifications or "jumper cables" are necessary.
+ 
+ Setup (see setup.jpg):
+ Top:    Ethernet Shield
+ Middle: NFC Shield V2.0
+ Bottom: Arduino Mega 2560
+ 
+ Pin 10 of of both Shields are bend out (not connected to base board). 
+ Connect following pins with jumper cables: 
+ - Arduino   Pin 10 <--> EthernetShield Pin10
+ - NFCShield Pin  9 <--> EthernetShield Pin 9
+ 
+ Now we can use pin 10 for Ehternet Shield and pin 9 for NFCShield.
  */
 
 #include "SPI.h"
 #include "PN532_SPI.h"
 #include "emulatetag.h"
-#include "NdefMessage.h"
 #include <Ethernet.h>
 
 
@@ -46,6 +45,7 @@ enum serialCommandPrefix {
 #define COMMAND_NFC_EMULATION_STARTED  "STARTED_NFC_EMULATION"
 #define COMMAND_NFC_EMULATION_TIMEDOUT "TIMEDOUT_NFC_EMULATION"
 #define COMMAND_NFC_EMULATION_FINISHED "FINISHED_NFC_EMULATION"
+#define NDEF_MODIFIED                  "NDEF_MODIFIED:"
 
 // ******************* Settings  *******************
 
@@ -83,25 +83,17 @@ void setup()
 {
   Serial.begin(115200);
 
-  setupNfc();
-  setupEthernet();
+  spiSelect(PN532_CS);
+  nfc.init();
   
-  Serial.println(COMMAND_INITALIZATION_FINISHED);
-}
-
-void setupEthernet(){
   spiSelect(ETHNET_CS);
-  SPI.setBitOrder(MSBFIRST);
   Ethernet.begin(mac, ip);
   server.begin();
+  
   Serial.print("server is at ");
   Serial.println(Ethernet.localIP());
-}
 
-void setupNfc(){
-  spiSelect(PN532_CS);
-  SPI.setBitOrder(LSBFIRST);
-  nfc.init();
+  Serial.println(COMMAND_INITALIZATION_FINISHED);
 }
 
 void loop(){
@@ -131,13 +123,13 @@ void loop(){
           delay(STREAM_DELAY);
         }
       }
-      
+
     }
     delay(STREAM_DELAY);
     client.stop();
     Serial.println("client disconnected");
   }
-  
+
   // TODO: remove this section, this is just for testing
   vibrationBuffer[vibrationCounter % sizeof(vibrationBuffer)] = vibrationCounter % 2;
   vibrationCounter++;
@@ -155,7 +147,6 @@ void commandNfcEmulate(){
     || !readTwoCharConvertToByte(&uid[2])
     ){
     spiSelect(ETHNET_CS);
-    SPI.setBitOrder(MSBFIRST);
     client.println("ERROR");
     return;
   }
@@ -176,26 +167,32 @@ void commandNfcEmulate(){
   nfc.setUid(uid);
 
   spiSelect(PN532_CS);
-  SPI.setBitOrder(LSBFIRST);
 
   if(!nfc.emulate(NFC_EMULATION_TIMEOUT)){
     delay(1000); // delay is mandatory!
     spiSelect(ETHNET_CS);
-    SPI.setBitOrder(MSBFIRST);
     client.println(COMMAND_NFC_EMULATION_TIMEDOUT); 
   } 
   else {
+    spiSelect(ETHNET_CS);
     if(nfc.writeOccured()){
       uint8_t* tag_buf;
       uint16_t length;
 
       nfc.getContent(&tag_buf, &length);
-      NdefMessage msg = NdefMessage(tag_buf, length);
-      msg.print();
+
+      client.print(NDEF_MODIFIED);
+      uint16_t i;
+      for(i = 0; i < length; i++){
+        if(tag_buf[i] < 0x10){
+          client.print("0"); 
+        }
+        client.print(tag_buf[i], HEX);         
+      }
+      client.print("\n");      
     }
     delay(1000); // delay is mandatory!
-    spiSelect(ETHNET_CS);
-    SPI.setBitOrder(MSBFIRST);
+
     client.println(COMMAND_NFC_EMULATION_FINISHED);
   }
 }
@@ -220,12 +217,18 @@ void spiSelect(int CS) {
   digitalWrite(ETHNET_CS,HIGH);
   // enable the chip we want
   digitalWrite(CS,LOW);  
+  if(CS == ETHNET_CS){
+    SPI.setBitOrder(MSBFIRST);
+  }
+  else if(CS == PN532_CS){
+    SPI.setBitOrder(LSBFIRST);
+  }
 }
 
 bool readCharConvertToByte(uint8_t *resultingByte){
   if(!client.available())
     return 0;
-    
+
   int tmp = client.read();
   if(tmp == -1){
     return 0;
@@ -255,11 +258,4 @@ uint8_t hexCharToByte(char c){
     return c - 'A' + 10;
   return 0;
 }
-
-
-
-
-
-
-
 
