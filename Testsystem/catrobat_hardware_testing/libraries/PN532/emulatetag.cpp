@@ -48,9 +48,12 @@
 
 typedef enum { NONE, CC, NDEF } tag_file;   // CC ... Compatibility Container
 
-bool EmulateTag::init(){
+void EmulateTag::init(){
   pn532.begin();
-  return pn532.SAMConfig();
+  pn532.SAMConfig();
+  pn532.setParameters(0x30);
+  uint8_t data[1] = { 0 };
+  pn532.rfConfiguration(1, data, 1);
 }
 
 void EmulateTag::setNdefFile(const uint8_t* ndef, const int16_t ndefLength){
@@ -94,6 +97,8 @@ bool EmulateTag::emulate(const uint16_t tgInitAsTargetTimeout){
 
   if(1 != pn532.tgInitAsTarget(command,sizeof(command), tgInitAsTargetTimeout)){
     DMSG("tgInitAsTarget failed or timed out!");
+    pn532.inRelease();
+    pn532.powerDown(0xF0);
     return false;
   }
 
@@ -128,6 +133,7 @@ bool EmulateTag::emulate(const uint16_t tgInitAsTargetTimeout){
     if(status < 0){
       DMSG("tgGetData failed!\n");
       pn532.inRelease();
+      pn532.powerDown(0xF0);
       return true;
     }
 
@@ -212,10 +218,12 @@ bool EmulateTag::emulate(const uint16_t tgInitAsTargetTimeout){
     if(status < 0){
       DMSG("tgSetData failed\n!");
       pn532.inRelease();
+      pn532.powerDown(0xF0);
       return true;
     }
   }
   pn532.inRelease();
+  pn532.powerDown(0xF0);
   return true;
 }
 

@@ -21,7 +21,7 @@ class EmulateTag{
 public:
 EmulateTag(PN532Interface &interface) : pn532(interface), uidPtr(0), tagWrittenByInitiator(false), tagWriteable(true) { }
   
-  bool init();
+  void init();
 
   bool emulate(const uint16_t tgInitAsTargetTimeout = 0);
 

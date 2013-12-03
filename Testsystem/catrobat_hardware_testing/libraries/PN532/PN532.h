@@ -122,6 +122,10 @@ public:
     uint8_t readGPIO(void);
     bool setPassiveActivationRetries(uint8_t maxRetries);
 
+    void setParameters(uint8_t flags);
+    void rfConfiguration(uint8_t cfgItem, uint8_t* configurationData, uint8_t configurationDataLength);
+    void powerDown(uint8_t wakeUpEnable);
+
     /**
     * @brief    Init PN532 as a target
     * @param    timeout max time to wait, 0 means no timeout

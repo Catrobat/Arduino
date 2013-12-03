@@ -831,8 +831,40 @@ int16_t PN532::inRelease(const uint8_t relevantTarget){
         return 0;
     }
 
-    // read data packet
     return HAL(readResponse)(pn532_packetbuffer, sizeof(pn532_packetbuffer));
 }
 
 
+void PN532::setParameters(uint8_t flags){
+  pn532_packetbuffer[0] = PN532_COMMAND_SETPARAMETERS;
+  pn532_packetbuffer[1] = flags;
+
+  if (HAL(writeCommand)(pn532_packetbuffer, 2)) {
+    return;
+  }
+
+  HAL(readResponse)(pn532_packetbuffer, sizeof(pn532_packetbuffer));
+}
+
+void PN532::rfConfiguration(uint8_t cfgItem, uint8_t* configurationData, uint8_t configurationDataLength){
+  pn532_packetbuffer[0] = PN532_COMMAND_RFCONFIGURATION;
+  pn532_packetbuffer[1] = cfgItem;
+  memcpy (pn532_packetbuffer+2, configurationData, configurationDataLength);  
+
+  if (HAL(writeCommand)(pn532_packetbuffer, 2 + configurationDataLength)) {
+    return;
+  }
+
+  HAL(readResponse)(pn532_packetbuffer, sizeof(pn532_packetbuffer));
+}
+
+void PN532::powerDown(uint8_t wakeUpEnable){
+  pn532_packetbuffer[0] = PN532_COMMAND_RFCONFIGURATION;
+  pn532_packetbuffer[1] = wakeUpEnable;
+
+  if (HAL(writeCommand)(pn532_packetbuffer, 2)){
+    return;
+  }
+
+  HAL(readResponse)(pn532_packetbuffer, sizeof(pn532_packetbuffer));  
+}

@@ -24,7 +24,7 @@
  Bottom: Arduino Mega 2560
  
  Pin 10 of of both Shields are bend out (not connected to base board). 
- Connect following pins with jumper cables: 
+ Connect following pins with jumper wires: 
  - Arduino   Pin 10 <--> EthernetShield Pin10
  - NFCShield Pin  9 <--> EthernetShield Pin 9
  
@@ -36,6 +36,7 @@
 #include "emulatetag.h"
 #include <Ethernet.h>
 
+#define NFC_SHIELD_AVAILABLE
 
 enum serialCommandPrefix { 
   NFC_EMULATE, VIBRATION_VALUES
@@ -49,12 +50,12 @@ enum serialCommandPrefix {
 // ******************* Settings  *******************
 
 #define STREAM_DELAY 2 // arduino is otherwise faster than the stream
-#define NFC_EMULATION_TIMEOUT 2000 
+#define NFC_EMULATION_TIMEOUT 5000 
 #define SERIAL_BUFFER_SIZE 128
 
 byte mac[] = { 
   0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
-IPAddress ip(192,168,8,33);
+IPAddress ip(192,168,8,16);
 
 #define TCP_PORT 6789
 
@@ -88,8 +89,10 @@ void setup()
 
   Serial.begin(115200);
 
+  #ifdef NFC_SHIELD_AVAILABLE
   spiSelect(PN532_CS);
   nfc.init();
+  #endif 
 
   spiSelect(ETHNET_CS);
   Ethernet.begin(mac, ip);
@@ -113,7 +116,9 @@ void loop(){
 
         switch(command){
         case NFC_EMULATE:
+          #ifdef NFC_SHIELD_AVAILABLE
           commandNfcEmulate();
+          #endif 
           break;
         case VIBRATION_VALUES:
           commandVibrationValues();
@@ -129,6 +134,7 @@ void loop(){
         }
       }
 
+      // TODO: maybe also read out sensor values here
     }
     delay(STREAM_DELAY);
     client.stop();
@@ -151,8 +157,8 @@ void commandNfcEmulate(){
     || !readTwoCharConvertToByte(&uid[1])
     || !readTwoCharConvertToByte(&uid[2])
     ){
-    spiSelect(ETHNET_CS);
     client.println("ERROR");
+    delay(STREAM_DELAY);
     return;
   }
 
@@ -173,7 +179,7 @@ void commandNfcEmulate(){
 
   spiSelect(PN532_CS);
 
-  nfc.init();
+//  nfc.init();
 
   if(!nfc.emulate(NFC_EMULATION_TIMEOUT)){
     delay(1000); // delay is mandatory!
@@ -202,6 +208,7 @@ void commandNfcEmulate(){
 
     client.println(COMMAND_NFC_EMULATION_FINISHED);
   }
+  delay(STREAM_DELAY);
 }
 
 void commandVibrationValues(){
@@ -212,6 +219,7 @@ void commandVibrationValues(){
     client.print(vibrationBuffer[i], HEX);
   }
   client.println("VIBRATION_END");
+  delay(STREAM_DELAY);
 }
 
 // **************************************************
@@ -239,8 +247,10 @@ bool readCharConvertToByte(uint8_t *resultingByte){
   if(tmp == -1){
     return 0;
   } 
-  *resultingByte = hexCharToByte((char)tmp); 
+  
+  *resultingByte = hexCharToByte((char)tmp);  
   delay(STREAM_DELAY);
+  
   return 1;  
 }
 
