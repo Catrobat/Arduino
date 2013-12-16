@@ -117,9 +117,13 @@ void loop(){
 
   if(client){
     Serial.println("client connected");
+    
+    if(client.connected())
+      digitalWrite(measurementStatusPin,HIGH);
+    
     while(client.connected()){
       uint8_t command;
-      digitalWrite(measurementStatusPin,HIGH);
+      
       if(readCharConvertToByte(&command)){
 
         switch(command){
