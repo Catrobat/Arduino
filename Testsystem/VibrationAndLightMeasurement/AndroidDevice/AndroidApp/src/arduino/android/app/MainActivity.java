@@ -25,9 +25,10 @@ import android.widget.Toast;
 public class MainActivity extends Activity {
 
 	public final static String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
-	public final static int VIBRATION_DURATION = 1000; //in ms
+	public final static int VIBRATION_DURATION = 120000; //let the phone maximal vibrate for 2 Minutes
 	
 	private boolean lightOn = false;
+	private boolean vibrationOn = false;
 	
 	private Camera camera = null;
 	private Vibrator vibrator = null;
@@ -192,12 +193,18 @@ public class MainActivity extends Activity {
 				
 				@Override
 				public void run() {
-					vibrate(VIBRATION_DURATION);
+					if(!vibrationOn) {
+						startVibrate();
+						vibrationOn = true;
+					} else {
+						stopVibrate();
+						vibrationOn = false;
+					}
 				}
 			});
 			
 			threads.add(vibrationThread);
-		}
+		} 
 		
 		for(Thread thread : threads) {
 			thread.start();
@@ -248,9 +255,15 @@ public class MainActivity extends Activity {
 	 * 
 	 * @param duration
 	 */
-	private synchronized void vibrate(int duration) {
-		vibrator.vibrate(duration);
+	private synchronized void startVibrate() {
+		vibrator.vibrate(VIBRATION_DURATION);
 	}
+	
+	
+	private synchronized void stopVibrate() {
+		vibrator.cancel();
+	}
+	
 	
 	//##########################################################################
 	

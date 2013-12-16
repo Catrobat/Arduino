@@ -33,8 +33,10 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 	private DataOutputStream outToServer;
 	private BufferedReader inFromServer;
 	
-	
+	private static final int VIBRATION_VALUE = 1;
 	private static final int LIGHT_VALUE = 2;
+	
+	private static final int HEX_RADIX = 16;
 	
 	//Ip Adress and Port, where the Arduino Server is running on
     private static final String serverIP="10.0.0.111";
@@ -79,9 +81,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		//=========================================================================
 		
 		
-		
-		
-		
 		// Turns off touch mode, if you send key events to the application
 		// you have to turn off touch mode before you start any activities
 		setActivityInitialTouchMode(false);
@@ -107,12 +106,9 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		assertFalse(lightCheckBox.isChecked());
 		assertFalse(vibrationCheckBox.isChecked());
 		
-		//wait 2s
+		//wait 3s
 		try {
-			Thread.sleep(7500);
-			peep();
-			Thread.sleep(200);
-			peep();
+			Thread.sleep(3000); // give arduino enough time to fill the vibration data array
 		} catch (InterruptedException e) {}
 		
 		
@@ -122,8 +118,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		
 		//Initially light should be off:
 		checkLightSensorValue(false);
-		
-		
+
 	}
 	
 	
@@ -143,7 +138,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		
 		try {
 			outToServer.writeBytes(Integer.toHexString(LIGHT_VALUE));
-			String msgFromServer = inFromServer.readLine();				//recieving the answer
+			String msgFromServer = inFromServer.readLine();				//Receiving the answer
 			
 			assertFalse("Wrong Command!", msgFromServer.contains("ERROR"));
 			assertTrue("Wrong data received!", msgFromServer.contains("LIGHT_END"));
@@ -156,7 +151,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		
 	}
 	
-	public void test_SimpleOnOffTest() {
+	public void _test_Light_SimpleOnOffTest() {
 		
 		//first check initial state:
 		_test_PreConditions();
@@ -204,17 +199,141 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		TouchUtils.clickView(this, lightCheckBox);
 		assertFalse(lightCheckBox.isChecked());
 		
-		//wait 2s
-				try {
-					Thread.sleep(200);
-					peep();
-					Thread.sleep(200);
-					peep();
-				} catch (InterruptedException e) {}
+		try {
+			Thread.sleep(200);
+			peep();
+			Thread.sleep(200);
+			peep();
+		} catch (InterruptedException e) {}
 				
 	}
 	
 	//##########################################################################
+	
+	private DataAnalysis getVibrationSensorValues() {
+		
+		DataAnalysis dataSet = null;
+		
+		try {
+			outToServer.writeBytes(Integer.toHexString(VIBRATION_VALUE));
+			String msgFromServer = inFromServer.readLine();				//Receiving the answer
+			
+			//String looks like: AA;ED;ED;1E;...;VIBRATION_END
+			
+			assertTrue("Wrong data received!", msgFromServer.contains("VIBRATION_END"));
+			msgFromServer = msgFromServer.replaceAll("VIBRATION_END", "");
+			
+			String[] dataStringArray = msgFromServer.split(";");
+			int[] dataIntArray = new int[dataStringArray.length];
+			
+			for(int i = 0; i < dataStringArray.length; i++)
+				dataIntArray[i] = Integer.parseInt(dataStringArray[i], HEX_RADIX);
+			
+			dataSet = new DataAnalysis(dataIntArray);
+			
+			System.out.println(msgFromServer);
+			
+		} catch (IOException e1) {
+			throw new AssertionFailedError("Dataexchanged failed! Check Server-Client-Connection");
+		}
+		
+		return dataSet;
+		
+	}
+	
+	
+	//return true if vibration is detected; false otherwise
+	private boolean evaluateVibrationData(DataAnalysis initData, DataAnalysis testData) {
+		
+		//this is quite hard with the currently used vibration sensor; 
+		//3 different criteria are used to decide whether a vibration is detected or not
+		
+		int criteriaCount = 0;
+		
+		if(initData.stdev * 1.15 < testData.stdev)
+			criteriaCount++;
+		
+//		if(initData.mean * 1.1 < testData.mean)
+//			criteriaCount++;
+		
+		if(initData.max * 1.35 < testData.max)
+			criteriaCount++;
+		
+		DataAnalysis baseline_Init_VibrationData = DataAnalysis.baselineComputationVibration(initData, initData);
+		DataAnalysis baseline_Test_VibrationData = DataAnalysis.baselineComputationVibration(initData, testData);
+		
+		if(baseline_Init_VibrationData.pseudoSum * 1.35 < baseline_Test_VibrationData.pseudoSum)
+			criteriaCount++;
+		
+//		if(baseline_Init_VibrationData.mean * 1.1 < baseline_Test_VibrationData.mean)
+//			criteriaCount++;
+		
+		
+		if(criteriaCount >= 2)
+			return true;
+		
+		return false;
+	}
+	
+	
+	public void test_Vibration_SimpleOnOffTest() {
+		
+		//first check initial state:
+		_test_PreConditions();
+		DataAnalysis initialVibrationData = getVibrationSensorValues();
+		
+		//now let's start the test
+		peep();
+
+		//check vibration checkbox
+		TouchUtils.clickView(this, vibrationCheckBox);
+		assertTrue(vibrationCheckBox.isChecked());
+		
+		//activate vibration
+		TouchUtils.clickView(this, actionButton);
+		
+		//wait 1s: Arduino MUST read the new sensor vals! 
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {}
+		
+		//now get the sensor values
+		DataAnalysis test_ON_VibrationData = getVibrationSensorValues();
+		assertTrue("Vibration pattern not detected!", evaluateVibrationData(initialVibrationData, test_ON_VibrationData));
+		
+		
+		
+		
+		//wait 2s: now stop vibration
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {}
+		
+		
+		//stop vibration
+		TouchUtils.clickView(this, actionButton);
+		//uncheck vibration checkbox
+		TouchUtils.clickView(this, vibrationCheckBox);
+		assertFalse(vibrationCheckBox.isChecked());
+		
+		//wait 1s: Arduino MUST read the new sensor vals! 
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {}
+		
+		//now get the sensor values again
+		DataAnalysis test_OFF_VibrationData = getVibrationSensorValues();
+		assertFalse("Error: Vibration pattern detected!", evaluateVibrationData(initialVibrationData, test_OFF_VibrationData));
+		
+		try {
+			Thread.sleep(200);
+			peep();
+			Thread.sleep(200);
+			peep();
+		} catch (InterruptedException e) {}
+	}	
+
+	
 	
 	public void _test_1_Light() {
 		

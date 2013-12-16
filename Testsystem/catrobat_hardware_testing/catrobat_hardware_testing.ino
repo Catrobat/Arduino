@@ -63,12 +63,14 @@ IPAddress ip(10,0,0,111);
 // **************************************************
 
 const int lightSensorPin       = 2; // the ligth sensor sets a digital signal on pin 2
+const int vibrationSensorPin   = A1; // the piezo is connected to analog pin 1
 const int measurementStatusPin = 7; // indicates the status of the hardware; is on while client is connected 
 
-// TODO: maybe remove this section, this is just for testing
-#define TMP_BUFFER_SIZE 100
-uint8_t vibrationBuffer[TMP_BUFFER_SIZE];
+// The last VIBRATION_BUFFER_SIZE measured data points are stored in vibrationBuffer
+#define VIBRATION_BUFFER_SIZE 2500
+uint16_t vibrationBuffer[VIBRATION_BUFFER_SIZE];
 int vibrationCounter;
+#define CYCLE_DELAY 1 //Slow down the cycle time in the client.connected() loop
 
 // **************************************************
 
@@ -81,6 +83,14 @@ EmulateTag nfc(pn532spi);
 EthernetServer server(TCP_PORT);
 EthernetClient client;
 
+//JUST FOR TESTING --- REMOVE THIS SECTION
+unsigned long startTime;
+unsigned long endTime;
+//JUST FOR TESTING --- REMOVE THIS SECTION
+
+
+
+
 // **************************************************
 
 void setup()
@@ -91,7 +101,7 @@ void setup()
   digitalWrite(PN532_CS,HIGH);
   digitalWrite(ETHNET_CS,HIGH);
 
-  pinMode(lightSensorPin, INPUT); // declare the lightSensor pin as a INPUT
+  pinMode(lightSensorPin, INPUT); // declare the light sensor pin as a INPUT
   pinMode(measurementStatusPin, OUTPUT); // declare the status pin as a OUTPUT
   digitalWrite(measurementStatusPin,LOW);
   
@@ -124,6 +134,11 @@ void loop(){
     while(client.connected()){
       uint8_t command;
       
+      //JUST FOR TESTING --- REMOVE THIS SECTION
+      if(vibrationCounter==0)
+        startTime = millis();
+      //JUST FOR TESTING --- REMOVE THIS SECTION
+      
       if(readCharConvertToByte(&command)){
 
         switch(command){
@@ -149,7 +164,30 @@ void loop(){
         }
       }
 
-      // TODO: maybe also read out sensor values here
+      // Read vibration sensor val and store the data point in
+      vibrationBuffer[vibrationCounter] = analogRead(vibrationSensorPin);
+      vibrationCounter++;
+      
+      //JUST FOR TESTING --- REMOVE THIS SECTION
+      if(vibrationCounter==VIBRATION_BUFFER_SIZE) {
+        endTime = millis();
+      
+        Serial.print("VibVals: Duration ");
+        Serial.print(endTime - startTime);
+        Serial.print("\nVibVals: startTime ");
+        Serial.print(startTime);
+        Serial.print("\nVibVals: endTime ");
+        Serial.println(endTime);
+      }
+      //JUST FOR TESTING --- REMOVE THIS SECTION
+      
+      
+      
+      if(vibrationCounter == VIBRATION_BUFFER_SIZE)
+        vibrationCounter = 0;
+      
+      if(vibrationCounter % 5 == 0)  
+        delay(CYCLE_DELAY);
     }
     delay(STREAM_DELAY);
     client.stop();
@@ -157,10 +195,6 @@ void loop(){
     
     digitalWrite(measurementStatusPin,LOW);
   }
-
-  // TODO: remove this section, this is just for testing
-  vibrationBuffer[vibrationCounter % sizeof(vibrationBuffer)] = vibrationCounter % 2;
-  vibrationCounter++;
 }
 
 void commandNfcEmulate(){
@@ -240,11 +274,10 @@ void commandLightValues(){
 // **************************************************
 
 void commandVibrationValues(){
-  for(int i=0; i < sizeof(vibrationBuffer); i++){
-    if(vibrationBuffer[i] < 0x10){
-      client.print("0");
-    }
+  for(int i=0; i < VIBRATION_BUFFER_SIZE; i++){
+    //client.print("0");
     client.print(vibrationBuffer[i], HEX);
+    client.print(';');
   }
   client.println("VIBRATION_END");
   delay(STREAM_DELAY);
