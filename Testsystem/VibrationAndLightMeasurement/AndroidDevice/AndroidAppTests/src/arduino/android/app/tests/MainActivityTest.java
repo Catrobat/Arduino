@@ -2,14 +2,23 @@ package arduino.android.app.tests;
 
 
 import android.app.Activity;
+
+
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.AssertionFailedError;
 import android.test.TouchUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import arduino.android.app.MainActivity;
+
+
+import java.io.*;
+import java.net.*;
+
+
 
 public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
@@ -19,6 +28,17 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 	private CheckBox vibrationCheckBox;
 	
 	private Button actionButton;
+	
+	private Socket clientSocket;
+	private DataOutputStream outToServer;
+	private BufferedReader inFromServer;
+	
+	
+	private static final int LIGHT_VALUE = 2;
+	
+	//Ip Adress and Port, where the Arduino Server is running on
+    private static final String serverIP="10.0.0.111";
+    private static final int serverPort=6789;
 	
 	//##########################################################################
 	
@@ -40,6 +60,28 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		super.setUp();
 		
 		
+		//=========================================================================
+		//								CLIENT
+		//=========================================================================
+		
+		String msgToServer;//Message that will be sent to Arduino
+        String msgFromServer;//recieved message will be stored here
+
+        clientSocket = new Socket(serverIP, serverPort);//making the socket connection
+        System.out.println("Connected to:"+serverIP+" on port:"+serverPort);//debug
+        //OutputStream to Arduino-Server
+        outToServer = new DataOutputStream(clientSocket.getOutputStream());
+        //BufferedReader from Arduino-Server
+        inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));//
+
+		
+		//=========================================================================
+		//=========================================================================
+		
+		
+		
+		
+		
 		// Turns off touch mode, if you send key events to the application
 		// you have to turn off touch mode before you start any activities
 		setActivityInitialTouchMode(false);
@@ -57,7 +99,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 	/**
 	 * Verifies if the application under test is initialized correctly
 	 */
-	public void test_0_PreConditions() {
+	private void _test_PreConditions() {
 		assertNotNull(lightCheckBox);
 		assertNotNull(vibrationCheckBox);
 		assertNotNull(actionButton);
@@ -75,31 +117,88 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		
 		
 		//============================================================
-		//now start initial Light check:
+		//now start initial Light check on hardware:
 		//============================================================
 		
+		//Initially light should be off:
+		checkLightSensorValue(false);
+		
+		
+	}
+	
+	
+	
+	private void checkLightSensorValue(boolean expectedLightValue) {
+		
+		char expectedValueChar;
+		String assertString;
+		
+		if(expectedLightValue) {
+			expectedValueChar = '1';
+			assertString = "Error: Light is turned off!";
+		} else {
+			expectedValueChar = '0';
+			assertString = "Error: Light is turned on!";
+		}
+		
 		try {
-			Thread.sleep(2000 + 2000); //2000ms wait between tests and 2000ms to set up serial port on host
+			outToServer.writeBytes(Integer.toHexString(LIGHT_VALUE));
+			String msgFromServer = inFromServer.readLine();				//recieving the answer
+			
+			assertFalse("Wrong Command!", msgFromServer.contains("ERROR"));
+			assertTrue("Wrong data received!", msgFromServer.contains("LIGHT_END"));
+			assertTrue(assertString, msgFromServer.charAt(0) == expectedValueChar);
+			
+			
+		} catch (IOException e1) {
+			throw new AssertionFailedError("Dataexchanged failed! Check Server-Client-Connection");
+		}
+		
+	}
+	
+	public void test_SimpleOnOffTest() {
+		
+		//first check initial state:
+		_test_PreConditions();
+		
+		//now let's start the test
+		
+		try {
 			peep();
 			//check light checkbox
 			TouchUtils.clickView(this, lightCheckBox);
-			assertTrue(lightCheckBox.isChecked());
-			Thread.sleep(3000);
+			assertTrue("Turning on the light failed", lightCheckBox.isChecked());
+			//turn on light
+			TouchUtils.clickView(this, actionButton);
+			
+			Thread.sleep(200);		//give Android some time to apply now configuration
 		} catch (InterruptedException e) {}
 		
 		
-		//turn on light
-		TouchUtils.clickView(this, actionButton);
+		//============================================================
+		//now start Light check on hardware:
+		//============================================================
 		
-		//wait 2s
+		//The light should be on:
+		checkLightSensorValue(true);
+
+		//wait 4s
 		try {
 			Thread.sleep(4000);
-		} catch (InterruptedException e) {
-			
-		}
+		} catch (InterruptedException e) {}
+		
+		//The light should still be on:
+		checkLightSensorValue(true);
 		
 		//turn off light
 		TouchUtils.clickView(this, actionButton);
+		try {
+			Thread.sleep(200); //give Android some time to apply now configuration
+		} catch (InterruptedException e1) {}		
+		
+		//The light should now be off:
+		checkLightSensorValue(false);
+		
 		
 		//uncheck light checkbox
 		TouchUtils.clickView(this, lightCheckBox);
@@ -107,7 +206,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		
 		//wait 2s
 				try {
-					Thread.sleep(5000);
+					Thread.sleep(200);
 					peep();
 					Thread.sleep(200);
 					peep();
@@ -209,6 +308,13 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
             Ringtone r = RingtoneManager.getRingtone(getActivity().getApplicationContext(), notification);
             r.play();
         } catch (Exception e) {}
+	}
+	
+	@Override protected void tearDown() throws Exception {
+		
+		clientSocket.close();//close the socket
+        //don't do this if you want to keep the connection
+		
 	}
 	
 }

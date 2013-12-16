@@ -39,7 +39,7 @@
 #define NFC_SHIELD_AVAILABLE
 
 enum serialCommandPrefix { 
-  NFC_EMULATE, VIBRATION_VALUES
+  NFC_EMULATE, VIBRATION_VALUES, LIGHT_VALUES
 };
 
 #define COMMAND_NFC_EMULATION_STARTED  "STARTED_NFC_EMULATION"
@@ -55,11 +55,15 @@ enum serialCommandPrefix {
 
 byte mac[] = { 
   0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
-IPAddress ip(192,168,8,16);
+//IPAddress ip(192,168,8,16);
+IPAddress ip(10,0,0,111);
 
 #define TCP_PORT 6789
 
 // **************************************************
+
+const int lightSensorPin       = 2; // the ligth sensor sets a digital signal on pin 2
+const int measurementStatusPin = 7; // indicates the status of the hardware; is on while client is connected 
 
 // TODO: maybe remove this section, this is just for testing
 #define TMP_BUFFER_SIZE 100
@@ -87,6 +91,10 @@ void setup()
   digitalWrite(PN532_CS,HIGH);
   digitalWrite(ETHNET_CS,HIGH);
 
+  pinMode(lightSensorPin, INPUT); // declare the lightSensor pin as a INPUT
+  pinMode(measurementStatusPin, OUTPUT); // declare the status pin as a OUTPUT
+  digitalWrite(measurementStatusPin,LOW);
+  
   Serial.begin(115200);
 
   #ifdef NFC_SHIELD_AVAILABLE
@@ -111,7 +119,7 @@ void loop(){
     Serial.println("client connected");
     while(client.connected()){
       uint8_t command;
-
+      digitalWrite(measurementStatusPin,HIGH);
       if(readCharConvertToByte(&command)){
 
         switch(command){
@@ -122,6 +130,9 @@ void loop(){
           break;
         case VIBRATION_VALUES:
           commandVibrationValues();
+          break;
+        case LIGHT_VALUES:
+          commandLightValues();
           break;
         default:
           client.print("ERROR: command not understood:");
@@ -139,6 +150,8 @@ void loop(){
     delay(STREAM_DELAY);
     client.stop();
     Serial.println("client disconnected");
+    
+    digitalWrite(measurementStatusPin,LOW);
   }
 
   // TODO: remove this section, this is just for testing
@@ -211,6 +224,17 @@ void commandNfcEmulate(){
   delay(STREAM_DELAY);
 }
 
+// **************************************************
+
+void commandLightValues(){
+
+  client.print(digitalRead(lightSensorPin), HEX);
+  client.println("LIGHT_END");
+  delay(STREAM_DELAY);
+}
+
+// **************************************************
+
 void commandVibrationValues(){
   for(int i=0; i < sizeof(vibrationBuffer); i++){
     if(vibrationBuffer[i] < 0x10){
@@ -221,6 +245,7 @@ void commandVibrationValues(){
   client.println("VIBRATION_END");
   delay(STREAM_DELAY);
 }
+
 
 // **************************************************
 
