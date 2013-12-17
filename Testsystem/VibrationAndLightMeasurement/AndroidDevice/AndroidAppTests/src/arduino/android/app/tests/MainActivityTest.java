@@ -22,7 +22,7 @@ import java.net.*;
 
 public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
-	private Activity mainActivity;
+	private Activity mainActivity = null;
 	
 	private CheckBox lightCheckBox;
 	private CheckBox vibrationCheckBox;
@@ -50,13 +50,12 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 
 	//##########################################################################
 	
+	
 	/**
 	 * Method is invoked before every test, used to initialize variables and
 	 * clean up from previous tests (see also tearDown())
 	 */
 	@Override protected void setUp() throws Exception {
-		
-		
 		
 		// Is required by JUnit
 		super.setUp();
@@ -65,9 +64,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		//=========================================================================
 		//								CLIENT
 		//=========================================================================
-		
-		String msgToServer;//Message that will be sent to Arduino
-        String msgFromServer;//recieved message will be stored here
 
         clientSocket = new Socket(serverIP, serverPort);//making the socket connection
         System.out.println("Connected to:"+serverIP+" on port:"+serverPort);//debug
@@ -85,7 +81,8 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		// you have to turn off touch mode before you start any activities
 		setActivityInitialTouchMode(false);
 		
-		mainActivity = getActivity(); // This call also starts the activity if it is not already running
+		if(mainActivity == null)
+			mainActivity = getActivity(); // This call also starts the activity if it is not already running
 		
 		lightCheckBox = (CheckBox) mainActivity.findViewById(arduino.android.app.R.id.cb_light);
 		vibrationCheckBox = (CheckBox) mainActivity.findViewById(arduino.android.app.R.id.cb_vibration);
@@ -95,63 +92,26 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 	
 	//##########################################################################
 	
-	/**
-	 * Verifies if the application under test is initialized correctly
-	 */
-	private void _test_PreConditions() {
-		assertNotNull(lightCheckBox);
-		assertNotNull(vibrationCheckBox);
-		assertNotNull(actionButton);
+	
+@Override protected void tearDown() throws Exception {
+
+		clientSocket.close();//close the socket
+        //don't do this if you want to keep the connection
 		
-		assertFalse(lightCheckBox.isChecked());
-		assertFalse(vibrationCheckBox.isChecked());
-		
-		//wait 3s
 		try {
-			Thread.sleep(3000); // give arduino enough time to fill the vibration data array
+			Thread.sleep(2000);
 		} catch (InterruptedException e) {}
 		
-		
-		//============================================================
-		//now start initial Light check on hardware:
-		//============================================================
-		
-		//Initially light should be off:
-		checkLightSensorValue(false);
+	}
 
-	}
-	
-	
-	
-	private void checkLightSensorValue(boolean expectedLightValue) {
-		
-		char expectedValueChar;
-		String assertString;
-		
-		if(expectedLightValue) {
-			expectedValueChar = '1';
-			assertString = "Error: Light is turned off!";
-		} else {
-			expectedValueChar = '0';
-			assertString = "Error: Light is turned on!";
-		}
-		
-		try {
-			outToServer.writeBytes(Integer.toHexString(LIGHT_VALUE));
-			String msgFromServer = inFromServer.readLine();				//Receiving the answer
-			
-			assertFalse("Wrong Command!", msgFromServer.contains("ERROR"));
-			assertTrue("Wrong data received!", msgFromServer.contains("LIGHT_END"));
-			assertTrue(assertString, msgFromServer.charAt(0) == expectedValueChar);
-			
-			
-		} catch (IOException e1) {
-			throw new AssertionFailedError("Dataexchanged failed! Check Server-Client-Connection");
-		}
-		
-	}
-	
-	public void _test_Light_SimpleOnOffTest() {
+
+
+//=========================================================================
+//							LIGHT TESTS
+//=========================================================================
+
+
+	public void test_Light_SimpleOnOffTest() {
 		
 		//first check initial state:
 		_test_PreConditions();
@@ -162,7 +122,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 			peep();
 			//check light checkbox
 			TouchUtils.clickView(this, lightCheckBox);
-			assertTrue("Turning on the light failed", lightCheckBox.isChecked());
+			assertTrue("Enabling light checkbox failed", lightCheckBox.isChecked());
 			//turn on light
 			TouchUtils.clickView(this, actionButton);
 			
@@ -170,13 +130,9 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		} catch (InterruptedException e) {}
 		
 		
-		//============================================================
-		//now start Light check on hardware:
-		//============================================================
-		
 		//The light should be on:
 		checkLightSensorValue(true);
-
+	
 		//wait 4s
 		try {
 			Thread.sleep(4000);
@@ -207,6 +163,135 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		} catch (InterruptedException e) {}
 				
 	}
+
+//=========================================================================
+	
+	public void test_Light_AdvancedOnOffTest() {
+		
+		//first check initial state:
+		_test_PreConditions();
+		
+		int numberOfIterations = 5;
+		
+		//now let's start the test
+		peep();
+		//Light test: enable light checkbox 
+		TouchUtils.clickView(this, lightCheckBox);
+		assertTrue("Enabling light checkbox failed", lightCheckBox.isChecked());
+		
+		for(int iteration = 0; iteration < numberOfIterations; iteration++) {
+			
+			//The light should (still) be off:
+			checkLightSensorValue(false);
+			
+			//wait 1s
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {}
+			
+			//now turn it on:
+			TouchUtils.clickView(this, actionButton);
+			
+			//The light should be on:
+			checkLightSensorValue(true);
+			
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {}
+			
+			//The light should still be on:
+			checkLightSensorValue(true);
+			
+			
+			//now turn it off again:
+			TouchUtils.clickView(this, actionButton);
+			
+			//The light should be off:
+			checkLightSensorValue(false);
+			
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {}
+			
+			
+		}
+				
+		//FINISHED test: uncheck light checkbox
+		TouchUtils.clickView(this, lightCheckBox);
+		assertFalse(lightCheckBox.isChecked());
+
+		try {
+			Thread.sleep(200);
+			peep();
+			Thread.sleep(200);
+			peep();
+		} catch (InterruptedException e) {}
+				
+	}
+	
+	
+//=========================================================================
+//								VIBRATION TESTS
+//=========================================================================
+
+
+	
+public void _test_Vibration_SimpleOnOffTest() {
+		
+		//first check initial state:
+		_test_PreConditions();
+		DataAnalysis initialVibrationData = getVibrationSensorValues();
+		
+		//now let's start the test
+		peep();
+
+		//check vibration checkbox
+		TouchUtils.clickView(this, vibrationCheckBox);
+		assertTrue(vibrationCheckBox.isChecked());
+		
+		//activate vibration
+		TouchUtils.clickView(this, actionButton);
+		
+		//wait 1s: Arduino MUST read the new sensor vals! 
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {}
+		
+		//now get the sensor values
+		DataAnalysis test_ON_VibrationData = getVibrationSensorValues();
+		assertTrue("Vibration pattern not detected!", DataAnalysis.evaluateVibrationData(initialVibrationData, test_ON_VibrationData));
+		
+		
+		
+		
+		//wait 2s: now stop vibration
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {}
+		
+		
+		//stop vibration
+		TouchUtils.clickView(this, actionButton);
+		//uncheck vibration checkbox
+		TouchUtils.clickView(this, vibrationCheckBox);
+		assertFalse(vibrationCheckBox.isChecked());
+		
+		//wait 1s: Arduino MUST read the new sensor vals! 
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {}
+		
+		//now get the sensor values again
+		DataAnalysis test_OFF_VibrationData = getVibrationSensorValues();
+		assertFalse("Error: Vibration pattern detected!", DataAnalysis.evaluateVibrationData(initialVibrationData, test_OFF_VibrationData));
+		
+		try {
+			Thread.sleep(200);
+			peep();
+			Thread.sleep(200);
+			peep();
+		} catch (InterruptedException e) {}
+	}	
 	
 	//##########################################################################
 	
@@ -241,183 +326,58 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		
 	}
 	
-	
-	//return true if vibration is detected; false otherwise
-	private boolean evaluateVibrationData(DataAnalysis initData, DataAnalysis testData) {
+	private void checkLightSensorValue(boolean expectedLightValue) {
 		
-		//this is quite hard with the currently used vibration sensor; 
-		//3 different criteria are used to decide whether a vibration is detected or not
+		char expectedValueChar;
+		String assertString;
 		
-		int criteriaCount = 0;
-		
-		if(initData.stdev * 1.15 < testData.stdev)
-			criteriaCount++;
-		
-//		if(initData.mean * 1.1 < testData.mean)
-//			criteriaCount++;
-		
-		if(initData.max * 1.35 < testData.max)
-			criteriaCount++;
-		
-		DataAnalysis baseline_Init_VibrationData = DataAnalysis.baselineComputationVibration(initData, initData);
-		DataAnalysis baseline_Test_VibrationData = DataAnalysis.baselineComputationVibration(initData, testData);
-		
-		if(baseline_Init_VibrationData.pseudoSum * 1.35 < baseline_Test_VibrationData.pseudoSum)
-			criteriaCount++;
-		
-//		if(baseline_Init_VibrationData.mean * 1.1 < baseline_Test_VibrationData.mean)
-//			criteriaCount++;
-		
-		
-		if(criteriaCount >= 2)
-			return true;
-		
-		return false;
-	}
-	
-	
-	public void test_Vibration_SimpleOnOffTest() {
-		
-		//first check initial state:
-		_test_PreConditions();
-		DataAnalysis initialVibrationData = getVibrationSensorValues();
-		
-		//now let's start the test
-		peep();
-
-		//check vibration checkbox
-		TouchUtils.clickView(this, vibrationCheckBox);
-		assertTrue(vibrationCheckBox.isChecked());
-		
-		//activate vibration
-		TouchUtils.clickView(this, actionButton);
-		
-		//wait 1s: Arduino MUST read the new sensor vals! 
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {}
-		
-		//now get the sensor values
-		DataAnalysis test_ON_VibrationData = getVibrationSensorValues();
-		assertTrue("Vibration pattern not detected!", evaluateVibrationData(initialVibrationData, test_ON_VibrationData));
-		
-		
-		
-		
-		//wait 2s: now stop vibration
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {}
-		
-		
-		//stop vibration
-		TouchUtils.clickView(this, actionButton);
-		//uncheck vibration checkbox
-		TouchUtils.clickView(this, vibrationCheckBox);
-		assertFalse(vibrationCheckBox.isChecked());
-		
-		//wait 1s: Arduino MUST read the new sensor vals! 
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {}
-		
-		//now get the sensor values again
-		DataAnalysis test_OFF_VibrationData = getVibrationSensorValues();
-		assertFalse("Error: Vibration pattern detected!", evaluateVibrationData(initialVibrationData, test_OFF_VibrationData));
-		
-		try {
-			Thread.sleep(200);
-			peep();
-			Thread.sleep(200);
-			peep();
-		} catch (InterruptedException e) {}
-	}	
-
-	
-	
-	public void _test_1_Light() {
-		
-		//check light checkbox
-		TouchUtils.clickView(this, lightCheckBox);
-		assertTrue(lightCheckBox.isChecked());
-		
-		try {
-			Thread.sleep(2000 + 2000); //2000ms wait between tests and 2000ms to set up serial port on host
-			peep();
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {}
-		
-		
-		//turn on light
-		TouchUtils.clickView(this, actionButton);
-		
-		//wait 2s
-		try {
-			Thread.sleep(4000);
-		} catch (InterruptedException e) {
-			
+		if(expectedLightValue) {
+			expectedValueChar = '1';
+			assertString = "Error: Light is turned off!";
+		} else {
+			expectedValueChar = '0';
+			assertString = "Error: Light is turned on!";
 		}
 		
-		//turn off light
-		TouchUtils.clickView(this, actionButton);
+		try {
+			outToServer.writeBytes(Integer.toHexString(LIGHT_VALUE));
+			String msgFromServer = inFromServer.readLine();				//Receiving the answer
+			
+			assertFalse("Wrong Command!", msgFromServer.contains("ERROR"));
+			assertTrue("Wrong data received!", msgFromServer.contains("LIGHT_END"));
+			assertTrue(assertString, msgFromServer.charAt(0) == expectedValueChar);
+			
+			
+		} catch (IOException e1) {
+			throw new AssertionFailedError("Dataexchange failed! Check Server-Client-Connection");
+		}
 		
-		//uncheck light checkbox
-		TouchUtils.clickView(this, lightCheckBox);
+	}
+	
+	/**
+	 * Verifies if the application under test is initialized correctly
+	 */
+	private void _test_PreConditions() {
+		assertNotNull(lightCheckBox);
+		assertNotNull(vibrationCheckBox);
+		assertNotNull(actionButton);
+		
 		assertFalse(lightCheckBox.isChecked());
-		
-		//wait 2s
-				try {
-					Thread.sleep(5000);
-					peep();
-					Thread.sleep(200);
-					peep();
-				} catch (InterruptedException e) {}
-		
-	}
-	
-	public void _test_2_Vibrate() {
-		
-		//check vibration checkbox
-		TouchUtils.clickView(this, vibrationCheckBox);
-		assertTrue(vibrationCheckBox.isChecked());
-		
-		//activate vibration
-		TouchUtils.clickView(this, actionButton);
-		
-		//wait 2s
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			
-		}
-		
-		//uncheck vibration checkbox
-		TouchUtils.clickView(this, vibrationCheckBox);
 		assertFalse(vibrationCheckBox.isChecked());
 		
-	}
-	
-	public void _test_3_LightAndVibrate() {
-		
-		
-		//check light and vibration checkbox
-		TouchUtils.clickView(this, lightCheckBox);
-		TouchUtils.clickView(this, vibrationCheckBox);
-		
-		//start light and vibration
-		TouchUtils.clickView(this, actionButton);
-		
-		//wait 1s
+		//wait 3s
 		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			
-		}
+			Thread.sleep(3000); // give arduino enough time to fill the vibration data array
+		} catch (InterruptedException e) {}
 		
-		//uncheck light and vibration checkbox
-		TouchUtils.clickView(this, lightCheckBox);
-		TouchUtils.clickView(this, vibrationCheckBox);
 		
+		//============================================================
+		//now start initial Light check on hardware:
+		//============================================================
+		
+		//Initially light should be off:
+		checkLightSensorValue(false);
+
 	}
 	
 	private void peep() {
@@ -428,12 +388,5 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
             r.play();
         } catch (Exception e) {}
 	}
-	
-	@Override protected void tearDown() throws Exception {
-		
-		clientSocket.close();//close the socket
-        //don't do this if you want to keep the connection
-		
-	}
-	
+
 }

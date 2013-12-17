@@ -65,6 +65,34 @@ public class DataAnalysis {
 		return new DataAnalysis(resData);
 	}
 	
+	//return true if vibration is detected; false otherwise
+	public static boolean evaluateVibrationData(DataAnalysis initData, DataAnalysis testData) {
+		
+		//this is quite hard with the currently used vibration sensor; 
+		//3 different criteria are used to decide whether a vibration is detected or not
+		
+		int criteriaCount = 0;
+		
+		if(initData.stdev * 1.15 < testData.stdev)
+			criteriaCount++;
+
+		if(initData.max * 1.35 < testData.max)
+			criteriaCount++;
+		
+		DataAnalysis baseline_Init_VibrationData = DataAnalysis.baselineComputationVibration(initData, initData);
+		DataAnalysis baseline_Test_VibrationData = DataAnalysis.baselineComputationVibration(initData, testData);
+		
+		if(baseline_Init_VibrationData.pseudoSum * 1.35 < baseline_Test_VibrationData.pseudoSum)
+			criteriaCount++;
+		
+		if(criteriaCount >= 2)
+			return true;
+		
+		return false;
+	}
+		
+		
+	
 //	public static int[] minMaxComputationVibration(DataContainer data) {
 //		
 //		DataAnalysis initVals = new DataAnalysis(data.initVibData);

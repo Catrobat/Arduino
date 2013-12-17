@@ -27,8 +27,8 @@ public class MainActivity extends Activity {
 	public final static String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
 	public final static int VIBRATION_DURATION = 120000; //let the phone maximal vibrate for 2 Minutes
 	
-	private boolean lightOn = false;
-	private boolean vibrationOn = false;
+	public static boolean lightOn = false;
+	public static boolean vibrationOn = false;
 	
 	private Camera camera = null;
 	private Vibrator vibrator = null;

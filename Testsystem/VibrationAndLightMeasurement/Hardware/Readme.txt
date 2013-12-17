@@ -1,0 +1,1 @@
+in this folder you can find the descriptions (curcuit, wiring) of the testing hardware
