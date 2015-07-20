@@ -1,0 +1,965 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="95">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <logicalFolder name="Ethernet" displayName="Ethernet" projectFiles="true">
+      <logicalFolder name="examples" displayName="examples" projectFiles="true">
+        <logicalFolder name="AdvancedChatServer"
+                       displayName="AdvancedChatServer"
+                       projectFiles="true">
+          <itemPath>/opt/arduino/libraries/Ethernet/examples/AdvancedChatServer/AdvancedChatServer.ino</itemPath>
+        </logicalFolder>
+        <logicalFolder name="BarometricPressureWebServer"
+                       displayName="BarometricPressureWebServer"
+                       projectFiles="true">
+          <itemPath>/opt/arduino/libraries/Ethernet/examples/BarometricPressureWebServer/BarometricPressureWebServer.ino</itemPath>
+        </logicalFolder>
+        <logicalFolder name="ChatServer" displayName="ChatServer" projectFiles="true">
+          <itemPath>/opt/arduino/libraries/Ethernet/examples/ChatServer/ChatServer.ino</itemPath>
+        </logicalFolder>
+        <logicalFolder name="DhcpAddressPrinter"
+                       displayName="DhcpAddressPrinter"
+                       projectFiles="true">
+          <itemPath>/opt/arduino/libraries/Ethernet/examples/DhcpAddressPrinter/DhcpAddressPrinter.ino</itemPath>
+        </logicalFolder>
+        <logicalFolder name="DhcpChatServer"
+                       displayName="DhcpChatServer"
+                       projectFiles="true">
+          <itemPath>/opt/arduino/libraries/Ethernet/examples/DhcpChatServer/DhcpChatServer.ino</itemPath>
+        </logicalFolder>
+        <logicalFolder name="TelnetClient"
+                       displayName="TelnetClient"
+                       projectFiles="true">
+          <itemPath>/opt/arduino/libraries/Ethernet/examples/TelnetClient/TelnetClient.ino</itemPath>
+        </logicalFolder>
+        <logicalFolder name="UdpNtpClient"
+                       displayName="UdpNtpClient"
+                       projectFiles="true">
+          <itemPath>/opt/arduino/libraries/Ethernet/examples/UdpNtpClient/UdpNtpClient.ino</itemPath>
+        </logicalFolder>
+        <logicalFolder name="UDPSendReceiveString"
+                       displayName="UDPSendReceiveString"
+                       projectFiles="true">
+          <itemPath>/opt/arduino/libraries/Ethernet/examples/UDPSendReceiveString/UDPSendReceiveString.ino</itemPath>
+        </logicalFolder>
+        <logicalFolder name="WebClient" displayName="WebClient" projectFiles="true">
+          <itemPath>/opt/arduino/libraries/Ethernet/examples/WebClient/WebClient.ino</itemPath>
+        </logicalFolder>
+        <logicalFolder name="WebClientRepeating"
+                       displayName="WebClientRepeating"
+                       projectFiles="true">
+          <itemPath>/opt/arduino/libraries/Ethernet/examples/WebClientRepeating/WebClientRepeating.ino</itemPath>
+        </logicalFolder>
+        <logicalFolder name="WebServer" displayName="WebServer" projectFiles="true">
+          <itemPath>/opt/arduino/libraries/Ethernet/examples/WebServer/WebServer.ino</itemPath>
+        </logicalFolder>
+        <logicalFolder name="XivelyClient"
+                       displayName="XivelyClient"
+                       projectFiles="true">
+          <itemPath>/opt/arduino/libraries/Ethernet/examples/XivelyClient/XivelyClient.ino</itemPath>
+        </logicalFolder>
+        <logicalFolder name="XivelyClientString"
+                       displayName="XivelyClientString"
+                       projectFiles="true">
+          <itemPath>/opt/arduino/libraries/Ethernet/examples/XivelyClientString/XivelyClientString.ino</itemPath>
+        </logicalFolder>
+      </logicalFolder>
+      <logicalFolder name="utility" displayName="utility" projectFiles="true">
+        <itemPath>/opt/arduino/libraries/Ethernet/utility/socket.cpp</itemPath>
+        <itemPath>/opt/arduino/libraries/Ethernet/utility/socket.h</itemPath>
+        <itemPath>/opt/arduino/libraries/Ethernet/utility/w5100.cpp</itemPath>
+        <itemPath>/opt/arduino/libraries/Ethernet/utility/w5100.h</itemPath>
+      </logicalFolder>
+      <itemPath>/opt/arduino/libraries/Ethernet/Dhcp.cpp</itemPath>
+      <itemPath>/opt/arduino/libraries/Ethernet/Dhcp.h</itemPath>
+      <itemPath>/opt/arduino/libraries/Ethernet/Dns.cpp</itemPath>
+      <itemPath>/opt/arduino/libraries/Ethernet/Dns.h</itemPath>
+      <itemPath>/opt/arduino/libraries/Ethernet/Ethernet.cpp</itemPath>
+      <itemPath>/opt/arduino/libraries/Ethernet/Ethernet.h</itemPath>
+      <itemPath>/opt/arduino/libraries/Ethernet/EthernetClient.cpp</itemPath>
+      <itemPath>/opt/arduino/libraries/Ethernet/EthernetClient.h</itemPath>
+      <itemPath>/opt/arduino/libraries/Ethernet/EthernetServer.cpp</itemPath>
+      <itemPath>/opt/arduino/libraries/Ethernet/EthernetServer.h</itemPath>
+      <itemPath>/opt/arduino/libraries/Ethernet/EthernetUdp.cpp</itemPath>
+      <itemPath>/opt/arduino/libraries/Ethernet/EthernetUdp.h</itemPath>
+      <itemPath>/opt/arduino/libraries/Ethernet/keywords.txt</itemPath>
+      <itemPath>/opt/arduino/libraries/Ethernet/util.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+      <itemPath>/workspace/sensorserver/oop_sensorserver/oop_sensorserver/defines.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="PN532" displayName="PN532" projectFiles="true">
+      <logicalFolder name="examples" displayName="examples" projectFiles="true">
+        <logicalFolder name="android_hce" displayName="android_hce" projectFiles="true">
+          <itemPath>/opt/arduino/libraries/NFC/PN532/examples/android_hce/android_hce.ino</itemPath>
+        </logicalFolder>
+        <logicalFolder name="emulate_tag_ndef"
+                       displayName="emulate_tag_ndef"
+                       projectFiles="true">
+          <itemPath>/opt/arduino/libraries/NFC/PN532/examples/emulate_tag_ndef/emulate_tag_ndef.ino</itemPath>
+        </logicalFolder>
+        <logicalFolder name="iso14443a_uid"
+                       displayName="iso14443a_uid"
+                       projectFiles="true">
+          <itemPath>/opt/arduino/libraries/NFC/PN532/examples/iso14443a_uid/iso14443a_uid.pde</itemPath>
+        </logicalFolder>
+        <logicalFolder name="mifareclassic_formatndef"
+                       displayName="mifareclassic_formatndef"
+                       projectFiles="true">
+          <itemPath>/opt/arduino/libraries/NFC/PN532/examples/mifareclassic_formatndef/mifareclassic_formatndef.pde</itemPath>
+        </logicalFolder>
+        <logicalFolder name="mifareclassic_memdump"
+                       displayName="mifareclassic_memdump"
+                       projectFiles="true">
+          <itemPath>/opt/arduino/libraries/NFC/PN532/examples/mifareclassic_memdump/mifareclassic_memdump.pde</itemPath>
+        </logicalFolder>
+        <logicalFolder name="mifareclassic_ndeftoclassic"
+                       displayName="mifareclassic_ndeftoclassic"
+                       projectFiles="true">
+          <itemPath>/opt/arduino/libraries/NFC/PN532/examples/mifareclassic_ndeftoclassic/mifareclassic_ndeftoclassic.pde</itemPath>
+        </logicalFolder>
+        <logicalFolder name="mifareclassic_updatendef"
+                       displayName="mifareclassic_updatendef"
+                       projectFiles="true">
+          <itemPath>/opt/arduino/libraries/NFC/PN532/examples/mifareclassic_updatendef/mifareclassic_updatendef.pde</itemPath>
+        </logicalFolder>
+        <logicalFolder name="p2p_raw" displayName="p2p_raw" projectFiles="true">
+          <itemPath>/opt/arduino/libraries/NFC/PN532/examples/p2p_raw/p2p_raw.ino</itemPath>
+        </logicalFolder>
+        <logicalFolder name="p2p_with_ndef_library"
+                       displayName="p2p_with_ndef_library"
+                       projectFiles="true">
+          <itemPath>/opt/arduino/libraries/NFC/PN532/examples/p2p_with_ndef_library/p2p_with_ndef_library.ino</itemPath>
+        </logicalFolder>
+        <logicalFolder name="readMifare" displayName="readMifare" projectFiles="true">
+          <itemPath>/opt/arduino/libraries/NFC/PN532/examples/readMifare/readMifare.pde</itemPath>
+        </logicalFolder>
+      </logicalFolder>
+      <itemPath>/opt/arduino/libraries/NFC/PN532/PN532.cpp</itemPath>
+      <itemPath>/opt/arduino/libraries/NFC/PN532/PN532.h</itemPath>
+      <itemPath>/opt/arduino/libraries/NFC/PN532/PN532Interface.h</itemPath>
+      <itemPath>/opt/arduino/libraries/NFC/PN532/PN532_debug.h</itemPath>
+      <itemPath>/opt/arduino/libraries/NFC/PN532/README.md</itemPath>
+      <itemPath>/opt/arduino/libraries/NFC/PN532/emulatetag.cpp</itemPath>
+      <itemPath>/opt/arduino/libraries/NFC/PN532/emulatetag.h</itemPath>
+      <itemPath>/opt/arduino/libraries/NFC/PN532/license.txt</itemPath>
+      <itemPath>/opt/arduino/libraries/NFC/PN532/llcp.cpp</itemPath>
+      <itemPath>/opt/arduino/libraries/NFC/PN532/llcp.h</itemPath>
+      <itemPath>/opt/arduino/libraries/NFC/PN532/mac_link.cpp</itemPath>
+      <itemPath>/opt/arduino/libraries/NFC/PN532/mac_link.h</itemPath>
+      <itemPath>/opt/arduino/libraries/NFC/PN532/snep.cpp</itemPath>
+      <itemPath>/opt/arduino/libraries/NFC/PN532/snep.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="PN532_SPI" displayName="PN532_SPI" projectFiles="true">
+      <itemPath>/opt/arduino/libraries/NFC/PN532_SPI/PN532_SPI.cpp</itemPath>
+      <itemPath>/opt/arduino/libraries/NFC/PN532_SPI/PN532_SPI.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles"
+                   displayName="Resource Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="SoftwareSerial"
+                   displayName="SoftwareSerial"
+                   projectFiles="true">
+      <logicalFolder name="examples" displayName="examples" projectFiles="true">
+        <logicalFolder name="SoftwareSerialExample"
+                       displayName="SoftwareSerialExample"
+                       projectFiles="true">
+          <itemPath>/opt/arduino/libraries/SoftwareSerial/examples/SoftwareSerialExample/SoftwareSerialExample.ino</itemPath>
+        </logicalFolder>
+        <logicalFolder name="TwoPortReceive"
+                       displayName="TwoPortReceive"
+                       projectFiles="true">
+          <itemPath>/opt/arduino/libraries/SoftwareSerial/examples/TwoPortReceive/TwoPortReceive.ino</itemPath>
+        </logicalFolder>
+      </logicalFolder>
+      <itemPath>/opt/arduino/libraries/SoftwareSerial/SoftwareSerial.cpp</itemPath>
+      <itemPath>/opt/arduino/libraries/SoftwareSerial/SoftwareSerial.h</itemPath>
+      <itemPath>/opt/arduino/libraries/SoftwareSerial/keywords.txt</itemPath>
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+      <itemPath>main.cpp</itemPath>
+    </logicalFolder>
+    <logicalFolder name="SPI" displayName="SPI" projectFiles="true">
+      <logicalFolder name="examples" displayName="examples" projectFiles="true">
+        <logicalFolder name="BarometricPressureSensor"
+                       displayName="BarometricPressureSensor"
+                       projectFiles="true">
+          <itemPath>/opt/arduino/libraries/SPI/examples/BarometricPressureSensor/BarometricPressureSensor.ino</itemPath>
+        </logicalFolder>
+        <logicalFolder name="DigitalPotControl"
+                       displayName="DigitalPotControl"
+                       projectFiles="true">
+          <itemPath>/opt/arduino/libraries/SPI/examples/DigitalPotControl/DigitalPotControl.ino</itemPath>
+        </logicalFolder>
+      </logicalFolder>
+      <itemPath>/opt/arduino/libraries/SPI/SPI.cpp</itemPath>
+      <itemPath>/opt/arduino/libraries/SPI/SPI.h</itemPath>
+      <itemPath>/opt/arduino/libraries/SPI/keywords.txt</itemPath>
+    </logicalFolder>
+    <logicalFolder name="utility" displayName="utility" projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="TestFiles"
+                   displayName="Test Files"
+                   projectFiles="false"
+                   kind="TEST_LOGICAL_FOLDER">
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceRootList>
+    <Elem>/opt/arduino/libraries/SoftwareSerial</Elem>
+    <Elem>/opt/arduino/libraries/SPI</Elem>
+    <Elem>/opt/arduino/libraries/Ethernet</Elem>
+    <Elem>/opt/arduino/libraries/PN532</Elem>
+    <Elem>/opt/arduino/libraries/PN532_SPI</Elem>
+  </sourceRootList>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Debug" type="1">
+      <toolsSet>
+        <compilerSet>arduino|GNU</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <standard>10</standard>
+          <incDir>
+            <pElem>/opt/arduino/hardware/arduino/cores/arduino</pElem>
+            <pElem>/opt/arduino/libraries/SoftwareSerial</pElem>
+            <pElem>/opt/arduino/libraries/SPI</pElem>
+            <pElem>/opt/arduino/libraries/Ethernet</pElem>
+            <pElem>/opt/arduino/libraries/Ethernet/utility</pElem>
+            <pElem>/opt/arduino/libraries/PN532</pElem>
+            <pElem>/opt/arduino/libraries/PN532_SPI</pElem>
+          </incDir>
+          <commandLine>-Os -Wall -ffunction-sections -fdata-sections -mmcu=atmega2560 -DF_CPU=16000000L -DARDUINO=101</commandLine>
+        </cTool>
+        <ccTool>
+          <standard>8</standard>
+          <incDir>
+            <pElem>/opt/arduino/hardware/arduino/cores/arduino</pElem>
+            <pElem>/opt/arduino/libraries/SoftwareSerial</pElem>
+            <pElem>/opt/arduino/libraries/SPI</pElem>
+            <pElem>/opt/arduino/libraries/Ethernet</pElem>
+            <pElem>/opt/arduino/libraries/Ethernet/utility</pElem>
+            <pElem>/opt/arduino/libraries/PN532</pElem>
+            <pElem>/opt/arduino/libraries/PN532_SPI</pElem>
+          </incDir>
+          <commandLine>-Os -Wall -fno-exceptions -ffunction-sections -fdata-sections -mmcu=atmega2560 -DF_CPU=16000000L -DARDUINO=101</commandLine>
+        </ccTool>
+        <linkerTool>
+          <linkerAddLib>
+            <pElem>../</pElem>
+          </linkerAddLib>
+          <linkerLibItems>
+            <linkerLibLibItem>arduinomega_corelib</linkerLibLibItem>
+            <linkerLibStdlibItem>Mathematics</linkerLibStdlibItem>
+          </linkerLibItems>
+          <commandLine>-Os -Wl,--gc-sections -mmcu=atmega2560</commandLine>
+        </linkerTool>
+      </compileType>
+      <item path="/opt/arduino/libraries/Ethernet/Dhcp.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/Dhcp.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/Dns.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/Dns.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/Ethernet.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/Ethernet.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/EthernetClient.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/EthernetClient.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/EthernetServer.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/EthernetServer.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/EthernetUdp.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/EthernetUdp.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/examples/AdvancedChatServer/AdvancedChatServer.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/examples/BarometricPressureWebServer/BarometricPressureWebServer.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/examples/ChatServer/ChatServer.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/examples/DhcpAddressPrinter/DhcpAddressPrinter.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/examples/DhcpChatServer/DhcpChatServer.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/examples/TelnetClient/TelnetClient.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/examples/UDPSendReceiveString/UDPSendReceiveString.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/examples/UdpNtpClient/UdpNtpClient.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/examples/WebClient/WebClient.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/examples/WebClientRepeating/WebClientRepeating.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/examples/WebServer/WebServer.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/examples/XivelyClient/XivelyClient.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/examples/XivelyClientString/XivelyClientString.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/keywords.txt"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/util.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/utility/socket.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/utility/socket.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/utility/w5100.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/utility/w5100.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/PN532.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/PN532.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/PN532Interface.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/PN532_debug.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/README.md"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/emulatetag.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/emulatetag.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/examples/android_hce/android_hce.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/examples/emulate_tag_ndef/emulate_tag_ndef.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/examples/iso14443a_uid/iso14443a_uid.pde"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/examples/mifareclassic_formatndef/mifareclassic_formatndef.pde"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/examples/mifareclassic_memdump/mifareclassic_memdump.pde"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/examples/mifareclassic_ndeftoclassic/mifareclassic_ndeftoclassic.pde"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/examples/mifareclassic_updatendef/mifareclassic_updatendef.pde"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/examples/p2p_raw/p2p_raw.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/examples/p2p_with_ndef_library/p2p_with_ndef_library.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/examples/readMifare/readMifare.pde"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/license.txt"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/llcp.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/llcp.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/mac_link.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/mac_link.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/snep.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/snep.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532_SPI/PN532_SPI.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532_SPI/PN532_SPI.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/SPI/SPI.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/SPI/SPI.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/SPI/examples/BarometricPressureSensor/BarometricPressureSensor.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/SPI/examples/DigitalPotControl/DigitalPotControl.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/SPI/keywords.txt"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/SoftwareSerial/SoftwareSerial.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/SoftwareSerial/SoftwareSerial.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/SoftwareSerial/examples/SoftwareSerialExample/SoftwareSerialExample.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/SoftwareSerial/examples/TwoPortReceive/TwoPortReceive.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/SoftwareSerial/keywords.txt"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/workspace/sensorserver/oop_sensorserver/oop_sensorserver/defines.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+    </conf>
+    <conf name="Release" type="1">
+      <toolsSet>
+        <compilerSet>arduino|GNU</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <asmTool>
+          <developmentMode>5</developmentMode>
+        </asmTool>
+      </compileType>
+      <item path="/opt/arduino/libraries/Ethernet/Dhcp.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/Dhcp.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/Dns.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/Dns.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/Ethernet.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/Ethernet.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/EthernetClient.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/EthernetClient.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/EthernetServer.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/EthernetServer.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/EthernetUdp.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/EthernetUdp.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/examples/AdvancedChatServer/AdvancedChatServer.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/examples/BarometricPressureWebServer/BarometricPressureWebServer.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/examples/ChatServer/ChatServer.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/examples/DhcpAddressPrinter/DhcpAddressPrinter.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/examples/DhcpChatServer/DhcpChatServer.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/examples/TelnetClient/TelnetClient.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/examples/UDPSendReceiveString/UDPSendReceiveString.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/examples/UdpNtpClient/UdpNtpClient.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/examples/WebClient/WebClient.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/examples/WebClientRepeating/WebClientRepeating.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/examples/WebServer/WebServer.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/examples/XivelyClient/XivelyClient.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/examples/XivelyClientString/XivelyClientString.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/keywords.txt"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/util.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/utility/socket.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/utility/socket.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/utility/w5100.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/Ethernet/utility/w5100.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/PN532.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/PN532.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/PN532Interface.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/PN532_debug.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/README.md"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/emulatetag.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/emulatetag.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/examples/android_hce/android_hce.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/examples/emulate_tag_ndef/emulate_tag_ndef.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/examples/iso14443a_uid/iso14443a_uid.pde"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/examples/mifareclassic_formatndef/mifareclassic_formatndef.pde"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/examples/mifareclassic_memdump/mifareclassic_memdump.pde"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/examples/mifareclassic_ndeftoclassic/mifareclassic_ndeftoclassic.pde"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/examples/mifareclassic_updatendef/mifareclassic_updatendef.pde"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/examples/p2p_raw/p2p_raw.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/examples/p2p_with_ndef_library/p2p_with_ndef_library.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/examples/readMifare/readMifare.pde"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/license.txt"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/llcp.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/llcp.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/mac_link.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/mac_link.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/snep.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532/snep.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532_SPI/PN532_SPI.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/NFC/PN532_SPI/PN532_SPI.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/SPI/SPI.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/SPI/SPI.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/SPI/examples/BarometricPressureSensor/BarometricPressureSensor.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/SPI/examples/DigitalPotControl/DigitalPotControl.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/SPI/keywords.txt"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/SoftwareSerial/SoftwareSerial.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/SoftwareSerial/SoftwareSerial.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/SoftwareSerial/examples/SoftwareSerialExample/SoftwareSerialExample.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/SoftwareSerial/examples/TwoPortReceive/TwoPortReceive.ino"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/opt/arduino/libraries/SoftwareSerial/keywords.txt"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/workspace/sensorserver/oop_sensorserver/oop_sensorserver/defines.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>
